@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "usgs-emergency-v1",
+  "source_feed": "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson",
+  "retrieval_method": "Official USGS feed retrieved through web tool; selected fields transcribed exactly",
+  "synthetic": false,
+  "events": [
+    {
+      "source": "USGS",
+      "source_event_id": "us6000tz1y",
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000tz1y",
+      "snapshot_date": "2026-10-04T19:36:28.463736+00:00",
+      "magnitude": 4.7,
+      "latitude": -38.3802,
+      "longitude": 145.8401,
+      "depth_km": 10,
+      "place": "5 km NNE of Korumburra, Australia",
+      "tsunami_flag": 0,
+      "event_timestamp": "2026-10-02T16:01:39.581000+00:00",
+      "source_time_ms": 1790956899581
+    },
+    {
+      "source": "USGS",
+      "source_event_id": "us6000txpi",
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us6000txpi",
+      "snapshot_date": "2026-10-04T19:36:28.463736+00:00",
+      "magnitude": 6.6,
+      "latitude": -21.2982,
+      "longitude": 168.61,
+      "depth_km": 10,
+      "place": "80 km ENE of Tadine, New Caledonia",
+      "tsunami_flag": 0,
+      "event_timestamp": "2026-09-25T21:23:03.309000+00:00",
+      "source_time_ms": 1790371383309
+    },
+    {
+      "source": "USGS",
+      "source_event_id": "us7000ti1p",
+      "source_url": "https://earthquake.usgs.gov/earthquakes/eventpage/us7000ti1p",
+      "snapshot_date": "2026-10-04T19:36:28.463736+00:00",
+      "magnitude": 6.5,
+      "latitude": 52.9564,
+      "longitude": -171.5033,
+      "depth_km": 98,
+      "place": "177 km W of Nikolski, Alaska",
+      "tsunami_flag": 1,
+      "event_timestamp": "2026-09-17T14:19:52.472000+00:00",
+      "source_time_ms": 1789654792472
+    }
+  ]
+}

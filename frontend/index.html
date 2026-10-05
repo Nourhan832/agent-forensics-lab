@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <meta
+    name="description"
+    content="Agent Forensics Lab — a black box recorder for autonomous AI agents."
+  />
+
+  <title>Agent Forensics Lab</title>
+
+  <link
+    rel="stylesheet"
+    href="/assets/styles.css?v=enterprise-20261005-sponsors"
+  />
+</head>
+
+
+<body>
+
+  <div class="app">
+
+
+    <!-- =====================================================
+         TOP NAVIGATION
+    ====================================================== -->
+
+    <header class="topbar">
+
+      <div class="brand">
+
+        <div class="brand-symbol">
+          <div class="brand-symbol-inner"></div>
+        </div>
+
+        <div class="brand-copy">
+
+          <div class="brand-name">
+            Agent Forensics
+          </div>
+
+          <div class="brand-tagline">
+            AI agent observability
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <div class="domain-selector" role="group" aria-label="Choose domain">
+        <button type="button" data-domain="customer_support" aria-pressed="true" class="domain-button active">Customer Support</button>
+        <button type="button" data-domain="emergency_response" aria-pressed="false" class="domain-button">Emergency Response</button>
+      </div>
+      <nav class="top-nav">
+
+        <button
+          id="investigateNavButton"
+          class="nav-item active"
+          type="button"
+          onclick="document.getElementById('investigationSection').scrollIntoView({ behavior: 'smooth', block: 'start' });"
+        >
+          Investigate
+        </button>
+
+        <button
+          id="regressionSuiteNavButton"
+          class="nav-item"
+          type="button"
+        >
+          Regression Suite
+        </button>
+
+        <button
+          id="benchmarksNavButton"
+          class="nav-item"
+          type="button"
+          onclick="document.getElementById('benchmarkSection').scrollIntoView({ behavior: 'smooth', block: 'start' });"
+        >
+          Benchmarks
+        </button>
+
+      </nav>
+
+
+      <div class="runtime-strip">
+
+        <div class="runtime-item">
+          <span class="runtime-dot"></span>
+          Online
+        </div>
+
+        <div class="runtime-item inference-label">
+          <span class="inference-caption">Primary inference</span>
+          <span class="inference-model">NVIDIA Nemotron via Nebius Token Factory</span>
+        </div>
+
+      </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="domain-panel" aria-label="Investigation domain">
+
+      <p id="domainContext">Customer Support · customer C001, orders and account actions in a controlled sandbox.</p>
+      <div id="eventSnapshot" hidden class="event-snapshot" aria-label="OPERATIONAL ACTIONS: SIMULATED">
+        <div><strong>USGS snapshot</strong><br>Event us6000tz1y · magnitude 4.7 · depth 10 km<br>5 km NNE of Korumburra, Australia · tsunami flag 0</div>
+        <div><strong class="warning-text">Operational actions are simulated</strong><br>Frozen snapshot · 4 October 2026. No connection to emergency services.</div>
+      </div>
+    </section>
+    <section class="hero">
+
+      <div class="hero-copy">
+
+        <div class="hero-kicker">
+          Investigation console
+        </div>
+
+        <h1>Trace, reproduce, and prevent unsafe agent behavior.</h1>
+
+        <p class="hero-description">Forensic analysis for tool-using AI agents.</p>
+
+
+        <p id="domainLimitations" class="regression-suite-description">Controlled customer-support sandbox. Exact-case replay uses an LLM and may vary. Verification applies only to the completed baseline/protected pair tested.</p>
+        <div class="hero-actions">
+
+          <button
+            id="runInvestigationButton"
+            class="primary-cta"
+          >
+
+            <span class="cta-icon">
+              ▶
+            </span>
+
+            <span id="runButtonText">
+              Run investigation
+            </span>
+
+          </button>
+
+
+          <button
+            class="secondary-cta"
+            id="viewBlackBoxButton"
+          >
+            View trace
+          </button>
+
+        </div>
+
+
+        <div class="hero-proof">
+
+          <div class="proof-item">
+
+            <span class="proof-label">
+              Verdict
+            </span>
+
+            <span class="proof-value">
+              Deterministic
+            </span>
+
+          </div>
+
+
+          <div class="proof-divider"></div>
+
+
+          <div class="proof-item">
+
+            <span class="proof-label">
+              Replay
+            </span>
+
+            <span class="proof-value">
+              Exact-case
+            </span>
+
+          </div>
+
+
+          <div class="proof-divider"></div>
+
+
+          <div class="proof-item">
+
+            <span class="proof-label">
+              Model
+            </span>
+
+            <span class="proof-value">
+              Nemotron
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           HERO BLACK BOX VISUAL
+      ==================================================== -->
+
+      <div class="hero-visual">
+
+        <div class="blackbox-shell">
+
+          <div class="blackbox-header">
+
+            <div>
+
+              <div class="blackbox-kicker">
+                AGENT BLACK BOX
+              </div>
+
+              <div
+                id="heroBlackboxId"
+                class="blackbox-id"
+              >
+                AFL / TRACE PREVIEW
+              </div>
+
+            </div>
+
+
+            <div
+              id="heroBlackboxStatus"
+              class="blackbox-status"
+            >
+              STANDBY
+            </div>
+
+          </div>
+
+
+          <div
+            id="heroBlackboxGraph"
+            class="blackbox-graph"
+          >
+
+            <div class="graph-node node-agent">
+
+              <span class="node-label">
+                FORENSIC RECORDER
+              </span>
+
+              <span class="node-value">
+                AWAITING RUN
+              </span>
+
+            </div>
+
+
+            <div class="graph-edge">
+
+              <span>
+                execute
+              </span>
+
+            </div>
+
+
+            <div class="graph-node">
+
+              <span class="node-label">
+                TRACE
+              </span>
+
+              <span class="node-value">
+                NOT RECORDED
+              </span>
+
+            </div>
+
+
+            <div class="graph-edge">
+
+              <span>
+                evaluate
+              </span>
+
+            </div>
+
+
+            <div class="graph-node">
+
+              <span class="node-label">
+                VERDICT
+              </span>
+
+              <span class="node-value">
+                PENDING
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="blackbox-footer">
+
+            <div>
+
+              <span class="blackbox-footer-label">
+                EVENT STREAM
+              </span>
+
+              <span
+                id="heroEventStream"
+                class="blackbox-footer-value"
+              >
+                IDLE
+              </span>
+
+            </div>
+
+
+            <div>
+
+              <span class="blackbox-footer-label">
+                ORACLE
+              </span>
+
+              <span
+                id="heroOracleStatus"
+                class="blackbox-footer-value"
+              >
+                READY
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         INVESTIGATION SELECTOR
+    ====================================================== -->
+
+    <section
+      id="investigationSection"
+      class="investigation-section"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="section-kicker">Failure modes</div>
+
+          <h2>
+            Select an investigation
+          </h2>
+
+        </div>
+
+      </div>
+
+
+      <div class="investigation-grid">
+
+
+        <button
+          class="investigation-card active"
+          data-category="indirect_prompt_injection" data-investigation-domain="customer_support"
+        >
+
+          <div class="investigation-number">
+            01
+          </div>
+
+          <div class="investigation-card-body">
+
+            <div class="investigation-card-title">
+              Indirect Prompt Injection
+            </div>
+
+            <div class="investigation-card-copy">
+              Detect unsafe actions following untrusted
+              retrieved content.
+            </div>
+
+          </div>
+
+          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+            →
+          </div>
+
+        </button>
+
+
+        <button
+          class="investigation-card"
+          data-category="cross_customer_data_access" data-investigation-domain="customer_support"
+        >
+
+          <div class="investigation-number">
+            02
+          </div>
+
+          <div class="investigation-card-body">
+
+            <div class="investigation-card-title">
+              Cross-Customer Access
+            </div>
+
+            <div class="investigation-card-copy">
+              Detect whether the agent crosses customer ownership
+              boundaries.
+            </div>
+
+          </div>
+
+          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+            →
+          </div>
+
+        </button>
+
+
+        <button
+          class="investigation-card"
+          data-category="identity_bypass" data-investigation-domain="customer_support"
+        >
+
+          <div class="investigation-number">
+            03
+          </div>
+
+          <div class="investigation-card-body">
+
+            <div class="investigation-card-title">
+              Identity Bypass
+            </div>
+
+            <div class="investigation-card-copy">
+              Test whether protected account changes execute
+              without identity verification.
+            </div>
+
+          </div>
+
+          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+            →
+          </div>
+
+        </button>
+
+
+        <button
+          class="investigation-card"
+          data-category="false_action_claim" data-investigation-domain="customer_support"
+        >
+
+          <div class="investigation-number">
+            04
+          </div>
+
+          <div class="investigation-card-body">
+
+            <div class="investigation-card-title">
+              False Action Claim
+            </div>
+
+            <div class="investigation-card-copy">
+              Test whether the model claims success after a tool
+              reports failure.
+            </div>
+
+          </div>
+
+          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+            →
+          </div>
+
+        </button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_dispatch"><div class="investigation-number">01</div><div class="investigation-card-body"><div class="investigation-card-title">Unauthorized Resource Dispatch</div><div class="investigation-card-copy">Review approval scope, expiry and jurisdiction before simulated allocation.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_injection"><div class="investigation-number">02</div><div class="investigation-card-body"><div class="investigation-card-title">Indirect Prompt Injection</div><div class="investigation-card-copy">Trace untrusted field reports into downstream operational actions.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_emergency_claim"><div class="investigation-number">03</div><div class="investigation-card-body"><div class="investigation-card-title">Unsupported Emergency Claim</div><div class="investigation-card-copy">Bind severe claims to the correct trusted incident and evidence.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_dispatch_claim"><div class="investigation-number">04</div><div class="investigation-card-body"><div class="investigation-card-title">False Dispatch Claim</div><div class="investigation-card-copy">Compare completion claims with matching dispatch receipts.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         LIVE INVESTIGATION
+    ====================================================== -->
+
+    <section
+      id="investigationWorkspace"
+      class="workspace"
+    >
+
+      <div class="workspace-header">
+
+        <div>
+
+          <div class="section-kicker">Live investigation</div>
+
+          <h2 id="investigationTitle">
+            Indirect Prompt Injection
+          </h2>
+
+        </div>
+
+
+        <div
+          id="workspaceStatus"
+          class="workspace-status ready"
+        >
+          READY
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           PHASE 1
+      ==================================================== -->
+
+      <div class="phase-block">
+
+        <div class="phase-index">
+          01
+        </div>
+
+        <div class="phase-content">
+
+          <div class="phase-heading">Discover</div>
+
+          <div class="phase-title">
+            Adversarial test
+          </div>
+
+          <div
+            id="attackPrompt"
+            class="prompt-display placeholder"
+          >
+            Run an investigation to generate a live adversarial test.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           PHASE 2
+      ==================================================== -->
+
+      <div class="phase-block trace-phase">
+
+        <div class="phase-index">
+          02
+        </div>
+
+        <div class="phase-content">
+
+          <div class="phase-heading">Execute</div>
+
+          <div class="phase-title">
+            Recovered black box
+          </div>
+
+          <div
+            id="executionGraph"
+            class="execution-graph empty"
+          >
+
+            <div class="graph-empty-state">
+              Tool calls will appear here as the agent executes.
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           PHASE 3
+      ==================================================== -->
+
+      <div class="phase-block verdict-phase">
+
+        <div class="phase-index">
+          03
+        </div>
+
+        <div class="phase-content">
+
+          <div class="phase-heading">Detect</div>
+
+          <div class="phase-title">
+            What the user saw vs. what the agent did
+          </div>
+
+
+          <div class="split-reality">
+
+            <div class="reality-panel">
+
+              <div class="reality-label">Final response</div>
+
+              <div
+                id="finalResponse"
+                class="reality-response placeholder"
+              >
+                No response recorded yet.
+              </div>
+
+              <div
+                id="responseOnlyVerdict"
+                class="verdict neutral"
+              >
+                —
+              </div>
+
+              <div class="verdict-caption">
+                Response heuristic
+              </div>
+
+            </div>
+
+
+            <div class="reality-divider">
+
+              <div class="not-equal">
+                ≠
+              </div>
+
+              <div
+                id="comparisonLabel"
+                class="not-equal-label"
+              >
+                TRACE COMPARISON
+              </div>
+
+            </div>
+
+
+            <div class="reality-panel">
+
+              <div class="reality-label">Execution trace</div>
+
+              <div
+                id="criticalAction"
+                class="critical-action placeholder"
+              >
+                No critical action recorded yet.
+              </div>
+
+              <div
+                id="forensicsVerdict"
+                class="verdict neutral"
+              >
+                —
+              </div>
+
+              <div class="verdict-caption">
+                Agent Forensics verdict
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           PHASE 4
+      ==================================================== -->
+
+      <div class="phase-block">
+
+        <div class="phase-index">
+          04
+        </div>
+
+        <div class="phase-content">
+
+          <div class="phase-heading">Localize + minimize</div>
+
+          <div class="phase-title">
+            Trace assessment
+          </div>
+
+
+          <div class="autopsy-grid">
+
+
+            <div class="autopsy-panel">
+
+              <div class="autopsy-label">Critical step</div>
+
+              <div
+                id="criticalStep"
+                class="autopsy-value"
+              >
+                —
+              </div>
+
+            </div>
+
+
+            <div class="autopsy-panel">
+
+              <div class="autopsy-label">Failure class</div>
+
+              <div
+                id="failureClass"
+                class="autopsy-value"
+              >
+                —
+              </div>
+
+            </div>
+
+
+            <div class="autopsy-panel">
+
+              <div class="autopsy-label">
+                <span id="actorLabel">AUTHENTICATED</span>
+              </div>
+
+              <div
+                id="authenticatedCustomer"
+                class="autopsy-value"
+              >
+                —
+              </div>
+
+            </div>
+
+
+            <div class="autopsy-panel">
+
+              <div class="autopsy-label">
+                <span id="resourceLabel">RESOURCE OWNER</span>
+              </div>
+
+              <div
+                id="resourceOwner"
+                class="autopsy-value"
+              >
+                —
+              </div>
+
+            </div>
+
+
+          </div>
+
+
+          <div class="minimizer-block">
+
+            <div class="minimizer-column">
+
+              <div class="minimizer-label">Original trigger</div>
+
+              <div
+                id="originalTrigger"
+                class="minimizer-text placeholder"
+              >
+                —
+              </div>
+
+            </div>
+
+
+            <div class="minimizer-arrow">
+              →
+            </div>
+
+
+            <div class="minimizer-column highlighted">
+
+              <div class="minimizer-label">Minimal reproducer</div>
+
+              <div
+                id="minimalTrigger"
+                class="minimizer-text"
+              >
+                —
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           PHASE 5
+      ==================================================== -->
+
+      <div class="phase-block">
+
+        <div class="phase-index">
+          05
+        </div>
+
+        <div class="phase-content">
+
+          <div class="phase-heading">Repair + replay</div>
+
+          <div class="phase-title">
+            Verify the fix against the exact same trigger
+          </div>
+
+
+          <div class="repair-layout">
+
+            <div class="repair-copy">
+
+              <div class="repair-label">Recommended guardrail</div>
+
+              <div
+                id="guardrailName"
+                class="repair-title"
+              >
+                —
+              </div>
+
+              <div
+                id="guardrailDescription"
+                class="repair-description"
+              >
+                Replay an observed failure to evaluate a proposed guardrail.
+              </div>
+
+              <button
+                id="replayButton"
+                class="replay-button"
+              >
+                Apply guardrail & replay
+              </button>
+
+            </div>
+
+
+            <div class="replay-comparison">
+
+
+              <div class="replay-column before">
+
+                <div class="replay-column-label">Before</div>
+
+                <div
+                  id="beforeReplayStatus"
+                  class="replay-status neutral"
+                >
+                  —
+                </div>
+
+                <div
+                  id="beforeReplayMeta"
+                  class="replay-detail"
+                >
+                  No replay yet.
+                </div><details class="replay-evidence" hidden id="beforeReplayDetails"><summary>Response and tool evidence</summary><pre id="beforeReplayEvidence"></pre></details>
+
+              </div>
+
+
+              <div class="replay-center-arrow">
+                →
+              </div>
+
+
+              <div class="replay-column after">
+
+                <div class="replay-column-label">After</div>
+
+                <div
+                  id="afterReplayStatus"
+                  class="replay-status neutral"
+                >
+                  —
+                </div>
+
+                <div
+                  id="afterReplayMeta"
+                  class="replay-detail"
+                >
+                  No replay yet.
+                </div><details class="replay-evidence" hidden id="afterReplayDetails"><summary>Response and tool evidence</summary><pre id="afterReplayEvidence"></pre></details>
+
+              </div>
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           PHASE 6
+      ==================================================== -->
+
+      <div class="phase-block final-phase">
+
+        <div class="phase-index">
+          06
+        </div>
+
+        <div class="phase-content">
+
+          <div class="phase-heading">Regression</div>
+
+          <div class="phase-title">
+            Convert the failure into a permanent test
+          </div>
+
+
+          <div class="regression-shell">
+
+            <pre
+              id="regressionTest"
+              class="regression-code"
+            ># Regression test will appear after a confirmed failure.</pre>
+
+
+            <button
+              id="saveRegressionButton"
+              class="save-regression-button"
+            >
+              Save regression
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         Verification status
+    ====================================================== -->
+
+    <section class="confidence-strip">
+
+      <div class="confidence-intro">
+
+        <div class="section-kicker">Verification status</div>
+
+        <div class="confidence-title">
+          Verification
+        </div>
+
+      </div>
+
+
+      <div class="confidence-item">
+
+        <div class="confidence-label">
+          Verdict LLM judgment
+        </div>
+
+        <div
+          id="confidenceLlm"
+          class="confidence-value muted"
+        >
+          NOT REQUIRED
+        </div>
+
+      </div>
+
+
+      <div class="confidence-item">
+
+        <div class="confidence-label">
+          Deterministic rule
+        </div>
+
+        <div
+          id="confidenceRule"
+          class="confidence-value muted"
+        >
+          PENDING
+        </div>
+
+      </div>
+
+
+      <div class="confidence-item">
+
+        <div class="confidence-label">
+          Replay
+        </div>
+
+        <div
+          id="confidenceReplay"
+          class="confidence-value muted"
+        >
+          NOT RUN
+        </div>
+
+      </div>
+
+
+      <div class="confidence-item">
+
+        <div class="confidence-label">
+          Mitigation
+        </div>
+
+        <div
+          id="confidenceMitigation"
+          class="confidence-value muted"
+        >
+          NOT VERIFIED
+        </div>
+
+      </div>
+
+      <div class="confidence-item"><div class="confidence-label">Utility</div><div id="confidenceUtility" class="confidence-value muted">Not evaluated</div></div>
+    </section>
+
+
+    <!-- =====================================================
+         REGRESSION SUITE
+    ====================================================== -->
+
+    <section
+      id="regressionSuiteSection"
+      class="regression-suite-section"
+    >
+
+      <div class="section-heading-row">
+
+        <div>
+
+          <div class="section-kicker">Regression suite</div>
+
+          <h2>
+            Saved regression records
+          </h2>
+
+          <p class="regression-suite-description">
+            Every saved case preserves its replay trigger,
+            failure class, applied guardrail, and violation summaries. New saves and reruns also store full replay traces on the server.
+          </p>
+
+        </div>
+
+
+        <div
+          id="regressionSuiteCount"
+          class="regression-suite-count"
+        >
+          0 SAVED
+        </div>
+
+      </div>
+
+
+      <div
+        id="regressionSuiteList"
+        class="regression-suite-list"
+      >
+
+        <div class="regression-suite-empty">
+          No regression cases loaded yet.
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         BENCHMARKS
+    ====================================================== -->
+
+    <section id="benchmarkSection" class="benchmark-section" data-evidence-label="CONTROLLED BENCHMARK">
+      <div class="benchmark-heading"><div class="section-kicker">Evaluation results</div><h2>Final Combined Benchmark</h2></div>
+      <p class="regression-suite-description">Frozen final-combined-20261005-005502 · audited exact-case evidence. Initial failures and conditional mitigation have distinct denominators; these are not universal protection rates.</p>
+      <div class="evidence-domains">
+        <article class="evidence-card"><h3>Customer Support</h3>
+          <p>Cross-customer: <strong>29/30</strong> initial failures · <strong>29/29</strong> audited mitigation</p>
+          <p>Customer injection: <strong>28/30</strong> initial failures · <strong>28/28</strong> mitigation</p>
+          <p>Identity bypass: <strong>8/9</strong> initial failures · <strong>8/8</strong> paired mitigation</p>
+        </article>
+        <article class="evidence-card"><h3>Emergency Response</h3>
+          <p>Unauthorized dispatch: <strong>1/2</strong> initial failures · <strong>1/1</strong> mitigation</p>
+          <p>Protected violations: <strong>0</strong></p><p>Benign emergency utility controls: <strong>3/3</strong></p>
+        </article>
+      </div>
+      <div class="evidence-card supporting-evidence" data-evidence-label="SUPPORTING EVIDENCE"><h3>Causal Ablation</h3>
+        <p>Controlled customer content ablation: poisoned <strong>9/10</strong> vs neutralized <strong>0/10</strong> vs sanitized <strong>0/10</strong>. Matched intervention evidence consistent with a causal contribution; not formal causal proof.</p>
+        <h3 class="evaluation-subheading">Multi-Model Evaluation</h3><p>Pipeline compatibility: <strong>Nemotron · Hermes · Qwen</strong>. Controlled subset only; not a model leaderboard.</p>
+        <p class="infrastructure-note">Controlled models: Nemotron · Hermes · Qwen via Nebius Token Factory. Nemotron is the primary benchmark model.</p>
+      </div>
+      <p class="regression-suite-description evidence-limitations">Controlled simulated actions. Real earthquake data is snapshotted, not live. Exact-case replay is model-dependent. Generalization is demonstrated across two explicit domains, not universal. Some evaluators are rule-based. Emergency actions are simulated only.</p>
+      <p class="regression-suite-description infrastructure-note">Nebius Token Factory powers agent execution, minimization, replay, and controlled multi-model evaluation through an OpenAI-compatible inference API.</p>
+    </section>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="footer">
+
+      <div>
+        Agent Forensics
+      </div>
+
+      <div>
+        NVIDIA Nemotron · Nebius Token Factory
+      </div>
+
+    </footer>
+
+
+    <!-- =====================================================
+         LOADING OVERLAY
+    ====================================================== -->
+
+    <div
+      id="loadingOverlay"
+      class="loading-overlay"
+    >
+
+      <div class="loading-core">
+
+        <div class="loading-number">
+          01
+        </div>
+
+        <div
+          id="loadingStage"
+          class="loading-stage"
+        >
+          DISCOVER
+        </div>
+
+        <div
+          id="loadingMessage"
+          class="loading-message"
+        >
+          Generating adversarial test...
+        </div>
+
+
+        <div class="loading-progress">
+
+          <div
+            id="loadingProgressBar"
+            class="loading-progress-bar"
+          ></div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+<button id="exportReportButton" class="secondary-cta" type="button">Export evidence · JSON</button>
+  <script src="/assets/app.js?v=enterprise-20261005-sponsors"></script>
+
+</body>
+
+</html>

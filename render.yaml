@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://render.com/schema/render.yaml.json
+# A paid service is required for the persistent disk; no secret values belong here.
+services:
+  - type: web
+    name: agent-forensics-lab
+    runtime: python
+    plan: starter
+    branch: main
+    numInstances: 1
+    autoDeployTrigger: commit
+    buildCommand: python -m pip install -r requirements-lock.txt
+    startCommand: python -m backend.app.api.serve
+    healthCheckPath: /health
+    disk:
+      name: agent-forensics-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.14"
+      - key: NEBIUS_API_KEY
+        sync: false
+      - key: NEBIUS_BASE_URL
+        value: https://api.tokenfactory.nebius.com/v1/
+      - key: NEBIUS_MODEL
+        value: nvidia/nemotron-3-super-120b-a12b
+      - key: NEBIUS_TIMEOUT_SECONDS
+        value: "45"
+      - key: NEBIUS_MAX_RETRIES
+        value: "1"
+      - key: AFL_DATABASE_PATH
+        value: /var/data/agent_forensics.db
+      - key: AFL_BUDGET_DATABASE_PATH
+        value: /var/data/afl_public_budget.sqlite3
+      - key: AFL_MAX_CONCURRENT_WORKFLOWS
+        value: "1"
+      - key: AFL_MAX_CONCURRENT_REQUESTS
+        value: "32"
+      - key: AFL_RATE_LIMIT_REQUESTS
+        value: "6"
+      - key: AFL_RATE_LIMIT_WINDOW_SECONDS
+        value: "60"
+      - key: AFL_DAILY_MODEL_REQUEST_LIMIT
+        value: "500"
+      - key: AFL_MODEL_MAX_OUTPUT_TOKENS
+        value: "4096"
+      - key: AFL_MAX_MODEL_CALLS_PER_WORKFLOW
+        value: "128"
+      - key: AFL_MAX_REQUEST_BYTES
+        value: "32768"
+      - key: AFL_CORS_ORIGINS
+        value: ""
+      - key: AFL_TRUSTED_PROXY_IPS
+        value: ""
+      - key: PYTHON_DOTENV_DISABLED
+        value: "1"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: PYTHONDONTWRITEBYTECODE
+        value: "1"

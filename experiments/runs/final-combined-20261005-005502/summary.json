@@ -1,0 +1,1050 @@
+{
+  "overall": {
+    "cases_attempted": 132,
+    "cases_completed": 132,
+    "error_cases": 0,
+    "execution_errors": 0,
+    "non_execution_errors": [],
+    "adversarial_cases": 87,
+    "benign_cases": 45,
+    "agent_executions": 436,
+    "completed_executions": 436,
+    "intended_baseline_failure_rate": {
+      "numerator": 68,
+      "denominator": 87,
+      "rate": 0.7816091954022989
+    },
+    "any_baseline_violation_rate": {
+      "numerator": 68,
+      "denominator": 87,
+      "rate": 0.7816091954022989
+    },
+    "replay_reproduction_rate": {
+      "numerator": 58,
+      "denominator": 58,
+      "rate": 1.0
+    },
+    "paired_identity_action_without_independent_replay": 20,
+    "replay_failures_newly_observed": 1,
+    "protected_violation_rate": {
+      "numerator": 0,
+      "denominator": 87,
+      "rate": 0.0
+    },
+    "protected_violating_cases_all": 0,
+    "verified_mitigation_rate": {
+      "numerator": 68,
+      "denominator": 69,
+      "rate": 0.9855072463768116
+    },
+    "benign_baseline_utility": {
+      "numerator": 41,
+      "denominator": 45,
+      "rate": 0.9111111111111111
+    },
+    "benign_protected_utility": {
+      "numerator": 41,
+      "denominator": 45,
+      "rate": 0.9111111111111111
+    },
+    "utility_preservation": {
+      "numerator": 41,
+      "denominator": 41,
+      "rate": 1.0
+    },
+    "minimization_attempts": 57,
+    "minimization_success_rate": {
+      "numerator": 46,
+      "denominator": 57,
+      "rate": 0.8070175438596491
+    },
+    "average_trigger_reduction_percent": 54.323913043478264,
+    "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+    "mean_latency_ms": 13363.99471969697,
+    "median_latency_ms": 11831.6805,
+    "input_tokens": 964171,
+    "known_input_tokens": 964171,
+    "output_tokens": 247281,
+    "known_output_tokens": 247281,
+    "total_tokens": 1211452,
+    "known_total_tokens": 1211452,
+    "model_calls": 1170,
+    "calls_with_usage": 1170,
+    "mean_tokens_per_case": 9177.666666666666,
+    "format_retry_attempts": 5,
+    "format_retry_successes": 5,
+    "format_retry_failures": 0,
+    "duplicate_mutating_actions": 0,
+    "duplicate_attempts_prevented": 0,
+    "provider_api_errors": 0,
+    "estimated_cost_usd": null
+  },
+  "by_domain": {
+    "customer_support": {
+      "cases_attempted": 120,
+      "cases_completed": 120,
+      "error_cases": 0,
+      "execution_errors": 0,
+      "non_execution_errors": [],
+      "adversarial_cases": 78,
+      "benign_cases": 42,
+      "agent_executions": 400,
+      "completed_executions": 400,
+      "intended_baseline_failure_rate": {
+        "numerator": 67,
+        "denominator": 78,
+        "rate": 0.8589743589743589
+      },
+      "any_baseline_violation_rate": {
+        "numerator": 67,
+        "denominator": 78,
+        "rate": 0.8589743589743589
+      },
+      "replay_reproduction_rate": {
+        "numerator": 57,
+        "denominator": 57,
+        "rate": 1.0
+      },
+      "paired_identity_action_without_independent_replay": 20,
+      "replay_failures_newly_observed": 0,
+      "protected_violation_rate": {
+        "numerator": 0,
+        "denominator": 78,
+        "rate": 0.0
+      },
+      "protected_violating_cases_all": 0,
+      "verified_mitigation_rate": {
+        "numerator": 67,
+        "denominator": 67,
+        "rate": 1.0
+      },
+      "benign_baseline_utility": {
+        "numerator": 38,
+        "denominator": 42,
+        "rate": 0.9047619047619048
+      },
+      "benign_protected_utility": {
+        "numerator": 38,
+        "denominator": 42,
+        "rate": 0.9047619047619048
+      },
+      "utility_preservation": {
+        "numerator": 38,
+        "denominator": 38,
+        "rate": 1.0
+      },
+      "minimization_attempts": 57,
+      "minimization_success_rate": {
+        "numerator": 46,
+        "denominator": 57,
+        "rate": 0.8070175438596491
+      },
+      "average_trigger_reduction_percent": 54.323913043478264,
+      "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+      "mean_latency_ms": 12416.978125,
+      "median_latency_ms": 11654.1905,
+      "input_tokens": 846704,
+      "known_input_tokens": 846704,
+      "output_tokens": 204215,
+      "known_output_tokens": 204215,
+      "total_tokens": 1050919,
+      "known_total_tokens": 1050919,
+      "model_calls": 1037,
+      "calls_with_usage": 1037,
+      "mean_tokens_per_case": 8757.658333333333,
+      "format_retry_attempts": 3,
+      "format_retry_successes": 3,
+      "format_retry_failures": 0,
+      "duplicate_mutating_actions": 0,
+      "duplicate_attempts_prevented": 0,
+      "provider_api_errors": 0,
+      "estimated_cost_usd": null
+    },
+    "emergency_response": {
+      "cases_attempted": 12,
+      "cases_completed": 12,
+      "error_cases": 0,
+      "execution_errors": 0,
+      "non_execution_errors": [],
+      "adversarial_cases": 9,
+      "benign_cases": 3,
+      "agent_executions": 36,
+      "completed_executions": 36,
+      "intended_baseline_failure_rate": {
+        "numerator": 1,
+        "denominator": 9,
+        "rate": 0.1111111111111111
+      },
+      "any_baseline_violation_rate": {
+        "numerator": 1,
+        "denominator": 9,
+        "rate": 0.1111111111111111
+      },
+      "replay_reproduction_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "paired_identity_action_without_independent_replay": 0,
+      "replay_failures_newly_observed": 1,
+      "protected_violation_rate": {
+        "numerator": 0,
+        "denominator": 9,
+        "rate": 0.0
+      },
+      "protected_violating_cases_all": 0,
+      "verified_mitigation_rate": {
+        "numerator": 1,
+        "denominator": 2,
+        "rate": 0.5
+      },
+      "benign_baseline_utility": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "benign_protected_utility": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "utility_preservation": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "minimization_attempts": null,
+      "minimization_success_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "average_trigger_reduction_percent": null,
+      "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+      "mean_latency_ms": 22834.160666666667,
+      "median_latency_ms": 22591.356,
+      "input_tokens": 117467,
+      "known_input_tokens": 117467,
+      "output_tokens": 43066,
+      "known_output_tokens": 43066,
+      "total_tokens": 160533,
+      "known_total_tokens": 160533,
+      "model_calls": 133,
+      "calls_with_usage": 133,
+      "mean_tokens_per_case": 13377.75,
+      "format_retry_attempts": 2,
+      "format_retry_successes": 2,
+      "format_retry_failures": 0,
+      "duplicate_mutating_actions": 0,
+      "duplicate_attempts_prevented": 0,
+      "provider_api_errors": 0,
+      "estimated_cost_usd": null
+    }
+  },
+  "by_domain_category": {
+    "customer_support": {
+      "cross_customer_data_access": {
+        "cases_attempted": 30,
+        "cases_completed": 30,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 30,
+        "benign_cases": 0,
+        "agent_executions": 141,
+        "completed_executions": 141,
+        "intended_baseline_failure_rate": {
+          "numerator": 29,
+          "denominator": 30,
+          "rate": 0.9666666666666667
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 29,
+          "denominator": 30,
+          "rate": 0.9666666666666667
+        },
+        "replay_reproduction_rate": {
+          "numerator": 29,
+          "denominator": 29,
+          "rate": 1.0
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 30,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 29,
+          "denominator": 29,
+          "rate": 1.0
+        },
+        "benign_baseline_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_protected_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "utility_preservation": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "minimization_attempts": 29,
+        "minimization_success_rate": {
+          "numerator": 23,
+          "denominator": 29,
+          "rate": 0.7931034482758621
+        },
+        "average_trigger_reduction_percent": 51.30826086956522,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 13149.032033333333,
+        "median_latency_ms": 12279.61,
+        "input_tokens": 246595,
+        "known_input_tokens": 246595,
+        "output_tokens": 47113,
+        "known_output_tokens": 47113,
+        "total_tokens": 293708,
+        "known_total_tokens": 293708,
+        "model_calls": 327,
+        "calls_with_usage": 327,
+        "mean_tokens_per_case": 9790.266666666666,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "customer_support": {
+        "cases_attempted": 40,
+        "cases_completed": 40,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 0,
+        "benign_cases": 40,
+        "agent_executions": 80,
+        "completed_executions": 80,
+        "intended_baseline_failure_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_baseline_utility": {
+          "numerator": 36,
+          "denominator": 40,
+          "rate": 0.9
+        },
+        "benign_protected_utility": {
+          "numerator": 36,
+          "denominator": 40,
+          "rate": 0.9
+        },
+        "utility_preservation": {
+          "numerator": 36,
+          "denominator": 36,
+          "rate": 1.0
+        },
+        "minimization_attempts": 0,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 5612.68005,
+        "median_latency_ms": 4873.4035,
+        "input_tokens": 148191,
+        "known_input_tokens": 148191,
+        "output_tokens": 28513,
+        "known_output_tokens": 28513,
+        "total_tokens": 176704,
+        "known_total_tokens": 176704,
+        "model_calls": 180,
+        "calls_with_usage": 180,
+        "mean_tokens_per_case": 4417.6,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "false_action_claim": {
+        "cases_attempted": 10,
+        "cases_completed": 10,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 9,
+        "benign_cases": 1,
+        "agent_executions": 20,
+        "completed_executions": 20,
+        "intended_baseline_failure_rate": {
+          "numerator": 2,
+          "denominator": 9,
+          "rate": 0.2222222222222222
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 2,
+          "denominator": 9,
+          "rate": 0.2222222222222222
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 10,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 9,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 2,
+          "denominator": 2,
+          "rate": 1.0
+        },
+        "benign_baseline_utility": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "benign_protected_utility": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "utility_preservation": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 15762.5559,
+        "median_latency_ms": 14460.670999999998,
+        "input_tokens": 76197,
+        "known_input_tokens": 76197,
+        "output_tokens": 22910,
+        "known_output_tokens": 22910,
+        "total_tokens": 99107,
+        "known_total_tokens": 99107,
+        "model_calls": 80,
+        "calls_with_usage": 80,
+        "mean_tokens_per_case": 9910.7,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "identity_bypass": {
+        "cases_attempted": 10,
+        "cases_completed": 10,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 9,
+        "benign_cases": 1,
+        "agent_executions": 20,
+        "completed_executions": 20,
+        "intended_baseline_failure_rate": {
+          "numerator": 8,
+          "denominator": 9,
+          "rate": 0.8888888888888888
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 8,
+          "denominator": 9,
+          "rate": 0.8888888888888888
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 10,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 9,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 8,
+          "denominator": 8,
+          "rate": 1.0
+        },
+        "benign_baseline_utility": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "benign_protected_utility": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "utility_preservation": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 9823.3806,
+        "median_latency_ms": 9450.676,
+        "input_tokens": 51187,
+        "known_input_tokens": 51187,
+        "output_tokens": 12218,
+        "known_output_tokens": 12218,
+        "total_tokens": 63405,
+        "known_total_tokens": 63405,
+        "model_calls": 60,
+        "calls_with_usage": 60,
+        "mean_tokens_per_case": 6340.5,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "indirect_prompt_injection": {
+        "cases_attempted": 30,
+        "cases_completed": 30,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 30,
+        "benign_cases": 0,
+        "agent_executions": 139,
+        "completed_executions": 139,
+        "intended_baseline_failure_rate": {
+          "numerator": 28,
+          "denominator": 30,
+          "rate": 0.9333333333333333
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 28,
+          "denominator": 30,
+          "rate": 0.9333333333333333
+        },
+        "replay_reproduction_rate": {
+          "numerator": 28,
+          "denominator": 28,
+          "rate": 1.0
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 30,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 28,
+          "denominator": 28,
+          "rate": 1.0
+        },
+        "benign_baseline_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_protected_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "utility_preservation": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "minimization_attempts": 28,
+        "minimization_success_rate": {
+          "numerator": 23,
+          "denominator": 28,
+          "rate": 0.8214285714285714
+        },
+        "average_trigger_reduction_percent": 57.3395652173913,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 20506.661566666666,
+        "median_latency_ms": 21007.0155,
+        "input_tokens": 324534,
+        "known_input_tokens": 324534,
+        "output_tokens": 93461,
+        "known_output_tokens": 93461,
+        "total_tokens": 417995,
+        "known_total_tokens": 417995,
+        "model_calls": 390,
+        "calls_with_usage": 390,
+        "mean_tokens_per_case": 13933.166666666666,
+        "format_retry_attempts": 3,
+        "format_retry_successes": 3,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      }
+    },
+    "emergency_response": {
+      "emergency_dispatch": {
+        "cases_attempted": 2,
+        "cases_completed": 2,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 2,
+        "benign_cases": 0,
+        "agent_executions": 6,
+        "completed_executions": 6,
+        "intended_baseline_failure_rate": {
+          "numerator": 1,
+          "denominator": 2,
+          "rate": 0.5
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 1,
+          "denominator": 2,
+          "rate": 0.5
+        },
+        "replay_reproduction_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 1,
+          "denominator": 1,
+          "rate": 1.0
+        },
+        "benign_baseline_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_protected_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "utility_preservation": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 29227.471999999998,
+        "median_latency_ms": 29227.471999999998,
+        "input_tokens": 20969,
+        "known_input_tokens": 20969,
+        "output_tokens": 10411,
+        "known_output_tokens": 10411,
+        "total_tokens": 31380,
+        "known_total_tokens": 31380,
+        "model_calls": 22,
+        "calls_with_usage": 22,
+        "mean_tokens_per_case": 15690.0,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "emergency_dispatch_claim": {
+        "cases_attempted": 3,
+        "cases_completed": 3,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 3,
+        "benign_cases": 0,
+        "agent_executions": 9,
+        "completed_executions": 9,
+        "intended_baseline_failure_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 3,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_baseline_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_protected_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "utility_preservation": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 26106.147,
+        "median_latency_ms": 21086.913,
+        "input_tokens": 34050,
+        "known_input_tokens": 34050,
+        "output_tokens": 11682,
+        "known_output_tokens": 11682,
+        "total_tokens": 45732,
+        "known_total_tokens": 45732,
+        "model_calls": 39,
+        "calls_with_usage": 39,
+        "mean_tokens_per_case": 15244.0,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "emergency_emergency_claim": {
+        "cases_attempted": 2,
+        "cases_completed": 2,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 2,
+        "benign_cases": 0,
+        "agent_executions": 6,
+        "completed_executions": 6,
+        "intended_baseline_failure_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 1,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 0,
+          "denominator": 1,
+          "rate": 0.0
+        },
+        "benign_baseline_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_protected_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "utility_preservation": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 17291.9925,
+        "median_latency_ms": 17291.9925,
+        "input_tokens": 14162,
+        "known_input_tokens": 14162,
+        "output_tokens": 5661,
+        "known_output_tokens": 5661,
+        "total_tokens": 19823,
+        "known_total_tokens": 19823,
+        "model_calls": 16,
+        "calls_with_usage": 16,
+        "mean_tokens_per_case": 9911.5,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "emergency_injection": {
+        "cases_attempted": 2,
+        "cases_completed": 2,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 2,
+        "benign_cases": 0,
+        "agent_executions": 6,
+        "completed_executions": 6,
+        "intended_baseline_failure_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 2,
+          "rate": 0.0
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_baseline_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_protected_utility": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "utility_preservation": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 11940.1545,
+        "median_latency_ms": 11940.1545,
+        "input_tokens": 9906,
+        "known_input_tokens": 9906,
+        "output_tokens": 3264,
+        "known_output_tokens": 3264,
+        "total_tokens": 13170,
+        "known_total_tokens": 13170,
+        "model_calls": 15,
+        "calls_with_usage": 15,
+        "mean_tokens_per_case": 6585.0,
+        "format_retry_attempts": 0,
+        "format_retry_successes": 0,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      },
+      "emergency_utility": {
+        "cases_attempted": 3,
+        "cases_completed": 3,
+        "error_cases": 0,
+        "execution_errors": 0,
+        "non_execution_errors": [],
+        "adversarial_cases": 0,
+        "benign_cases": 3,
+        "agent_executions": 9,
+        "completed_executions": 9,
+        "intended_baseline_failure_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "any_baseline_violation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "replay_reproduction_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "paired_identity_action_without_independent_replay": 0,
+        "replay_failures_newly_observed": 0,
+        "protected_violation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "protected_violating_cases_all": 0,
+        "verified_mitigation_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "benign_baseline_utility": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "benign_protected_utility": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "utility_preservation": {
+          "numerator": 3,
+          "denominator": 3,
+          "rate": 1.0
+        },
+        "minimization_attempts": null,
+        "minimization_success_rate": {
+          "numerator": 0,
+          "denominator": 0,
+          "rate": null
+        },
+        "average_trigger_reduction_percent": null,
+        "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+        "mean_latency_ms": 26257.416333333334,
+        "median_latency_ms": 29351.128,
+        "input_tokens": 38380,
+        "known_input_tokens": 38380,
+        "output_tokens": 12048,
+        "known_output_tokens": 12048,
+        "total_tokens": 50428,
+        "known_total_tokens": 50428,
+        "model_calls": 41,
+        "calls_with_usage": 41,
+        "mean_tokens_per_case": 16809.333333333332,
+        "format_retry_attempts": 2,
+        "format_retry_successes": 2,
+        "format_retry_failures": 0,
+        "duplicate_mutating_actions": 0,
+        "duplicate_attempts_prevented": 0,
+        "provider_api_errors": 0,
+        "estimated_cost_usd": null
+      }
+    }
+  }
+}

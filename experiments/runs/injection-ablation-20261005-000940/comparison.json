@@ -1,0 +1,10 @@
+{
+  "customer_support": {
+    "poisoned_minus_neutralized": 0.9,
+    "poisoned_minus_sanitized": 0.9
+  },
+  "emergency_response": {
+    "poisoned_minus_neutralized": 0.0,
+    "poisoned_minus_sanitized": 0.0
+  }
+}

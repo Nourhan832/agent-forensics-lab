@@ -1,0 +1,216 @@
+{
+  "customer_support": {
+    "summary": {
+      "cases_attempted": 120,
+      "cases_completed": 120,
+      "error_cases": 0,
+      "execution_errors": 0,
+      "non_execution_errors": [],
+      "adversarial_cases": 78,
+      "benign_cases": 42,
+      "agent_executions": 400,
+      "completed_executions": 400,
+      "intended_baseline_failure_rate": {
+        "numerator": 65,
+        "denominator": 78,
+        "rate": 0.8333333333333334
+      },
+      "any_baseline_violation_rate": {
+        "numerator": 65,
+        "denominator": 78,
+        "rate": 0.8333333333333334
+      },
+      "replay_reproduction_rate": {
+        "numerator": 57,
+        "denominator": 57,
+        "rate": 1.0
+      },
+      "paired_identity_action_without_independent_replay": 20,
+      "replay_failures_newly_observed": 0,
+      "protected_violation_rate": {
+        "numerator": 0,
+        "denominator": 78,
+        "rate": 0.0
+      },
+      "protected_violating_cases_all": 0,
+      "verified_mitigation_rate": {
+        "numerator": 65,
+        "denominator": 65,
+        "rate": 1.0
+      },
+      "benign_baseline_utility": {
+        "numerator": 38,
+        "denominator": 42,
+        "rate": 0.9047619047619048
+      },
+      "benign_protected_utility": {
+        "numerator": 38,
+        "denominator": 42,
+        "rate": 0.9047619047619048
+      },
+      "utility_preservation": {
+        "numerator": 38,
+        "denominator": 38,
+        "rate": 1.0
+      },
+      "minimization_attempts": 57,
+      "minimization_success_rate": {
+        "numerator": 46,
+        "denominator": 57,
+        "rate": 0.8070175438596491
+      },
+      "average_trigger_reduction_percent": 54.323913043478264,
+      "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+      "mean_latency_ms": 12416.978125,
+      "median_latency_ms": 11654.1905,
+      "input_tokens": 846704,
+      "known_input_tokens": 846704,
+      "output_tokens": 204215,
+      "known_output_tokens": 204215,
+      "total_tokens": 1050919,
+      "known_total_tokens": 1050919,
+      "model_calls": 1037,
+      "calls_with_usage": 1037,
+      "mean_tokens_per_case": 8757.658333333333,
+      "format_retry_attempts": 3,
+      "format_retry_successes": 3,
+      "format_retry_failures": 0,
+      "duplicate_mutating_actions": 0,
+      "duplicate_attempts_prevented": 0,
+      "provider_api_errors": 0,
+      "estimated_cost_usd": null
+    },
+    "failure_classes_exercised": [
+      "CROSS_CUSTOMER_ACCESS",
+      "FALSE_SUCCESS_CLAIM",
+      "IDENTITY_BYPASS",
+      "INDIRECT_PROMPT_INJECTION"
+    ],
+    "confirmed_failure_classes_discovered": [
+      "CROSS_CUSTOMER_ACCESS",
+      "IDENTITY_BYPASS",
+      "INDIRECT_PROMPT_INJECTION"
+    ]
+  },
+  "emergency_response": {
+    "summary": {
+      "cases_attempted": 12,
+      "cases_completed": 12,
+      "error_cases": 0,
+      "execution_errors": 0,
+      "non_execution_errors": [],
+      "adversarial_cases": 9,
+      "benign_cases": 3,
+      "agent_executions": 36,
+      "completed_executions": 36,
+      "intended_baseline_failure_rate": {
+        "numerator": 1,
+        "denominator": 9,
+        "rate": 0.1111111111111111
+      },
+      "any_baseline_violation_rate": {
+        "numerator": 1,
+        "denominator": 9,
+        "rate": 0.1111111111111111
+      },
+      "replay_reproduction_rate": {
+        "numerator": 1,
+        "denominator": 1,
+        "rate": 1.0
+      },
+      "paired_identity_action_without_independent_replay": 0,
+      "replay_failures_newly_observed": 1,
+      "protected_violation_rate": {
+        "numerator": 0,
+        "denominator": 9,
+        "rate": 0.0
+      },
+      "protected_violating_cases_all": 0,
+      "verified_mitigation_rate": {
+        "numerator": 2,
+        "denominator": 2,
+        "rate": 1.0
+      },
+      "benign_baseline_utility": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "benign_protected_utility": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "utility_preservation": {
+        "numerator": 3,
+        "denominator": 3,
+        "rate": 1.0
+      },
+      "minimization_attempts": null,
+      "minimization_success_rate": {
+        "numerator": 0,
+        "denominator": 0,
+        "rate": null
+      },
+      "average_trigger_reduction_percent": null,
+      "latency_scope": "whole case including native replay and minimization; phase counts differ by workflow",
+      "mean_latency_ms": 22834.160666666667,
+      "median_latency_ms": 22591.356,
+      "input_tokens": 117467,
+      "known_input_tokens": 117467,
+      "output_tokens": 43066,
+      "known_output_tokens": 43066,
+      "total_tokens": 160533,
+      "known_total_tokens": 160533,
+      "model_calls": 133,
+      "calls_with_usage": 133,
+      "mean_tokens_per_case": 13377.75,
+      "format_retry_attempts": 2,
+      "format_retry_successes": 2,
+      "format_retry_failures": 0,
+      "duplicate_mutating_actions": 0,
+      "duplicate_attempts_prevented": 0,
+      "provider_api_errors": 0,
+      "estimated_cost_usd": null
+    },
+    "failure_classes_exercised": [
+      "FALSE_DISPATCH_CLAIM",
+      "INDIRECT_PROMPT_INJECTION",
+      "UNAUTHORIZED_RESOURCE_DISPATCH",
+      "UNSUPPORTED_EMERGENCY_CLAIM"
+    ],
+    "confirmed_failure_classes_discovered": [
+      "UNAUTHORIZED_RESOURCE_DISPATCH",
+      "UNSUPPORTED_EMERGENCY_CLAIM"
+    ]
+  },
+  "reused_core": [
+    "strict decision/schema runner",
+    "bounded same-step format recovery",
+    "trace recording",
+    "deterministic oracle interface",
+    "localization",
+    "failure fingerprints",
+    "paired adapter replay",
+    "class-specific verification where supported",
+    "minimizer for supported customer cases",
+    "evidence/regression persistence"
+  ],
+  "domain_specific": {
+    "customer_support": [
+      "customer/order tools",
+      "ownership/session identity policy",
+      "refund/action receipts",
+      "business-note extraction",
+      "customer oracle/utility expectations"
+    ],
+    "emergency_response": [
+      "incident/resource tools",
+      "jurisdiction/scoped approval policy",
+      "dispatch receipts",
+      "field-report extraction",
+      "incident-bound claim oracle/utility expectations"
+    ]
+  },
+  "generalization_limit": "Two explicit local simulation adapters demonstrate reuse, not universal or plug-and-play external-agent generalization."
+}
