@@ -1,0 +1,63 @@
+app = "agent-forensics-lab"
+primary_region = "fra"
+kill_signal = "SIGTERM"
+kill_timeout = 300
+
+[build]
+  dockerfile = "Dockerfile"
+
+[deploy]
+  strategy = "immediate"
+
+[env]
+  PORT = "8000"
+  NEBIUS_BASE_URL = "https://api.tokenfactory.nebius.com/v1/"
+  NEBIUS_MODEL = "nvidia/nemotron-3-super-120b-a12b"
+  NEBIUS_TIMEOUT_SECONDS = "45"
+  NEBIUS_MAX_RETRIES = "1"
+  AFL_DATABASE_PATH = "/data/agent_forensics.db"
+  AFL_BUDGET_DATABASE_PATH = "/data/afl_public_budget.sqlite3"
+  AFL_MAX_CONCURRENT_WORKFLOWS = "1"
+  AFL_MAX_CONCURRENT_REQUESTS = "32"
+  AFL_RATE_LIMIT_REQUESTS = "6"
+  AFL_RATE_LIMIT_WINDOW_SECONDS = "60"
+  AFL_DAILY_MODEL_REQUEST_LIMIT = "500"
+  AFL_MODEL_MAX_OUTPUT_TOKENS = "4096"
+  AFL_MAX_MODEL_CALLS_PER_WORKFLOW = "128"
+  AFL_MAX_REQUEST_BYTES = "32768"
+  AFL_CORS_ORIGINS = ""
+  AFL_TRUSTED_PROXY_IPS = ""
+  PYTHON_DOTENV_DISABLED = "1"
+  PYTHONUNBUFFERED = "1"
+  PYTHONDONTWRITEBYTECODE = "1"
+
+[[mounts]]
+  source = "afl_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 16
+    hard_limit = 32
+
+  [http_service.http_options]
+    idle_timeout = 600
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "20s"
+    method = "GET"
+    path = "/health"
+
+[[vm]]
+  cpu_kind = "shared"
+  cpus = 1
+  memory = "512mb"
