@@ -1958,7 +1958,7 @@ button {
 
   z-index: 300;
 
-  display: grid;
+  display: none;
 
   place-items: center;
 
@@ -1978,6 +1978,7 @@ button {
 
 
 .loading-overlay.active {
+  display: grid;
   opacity: 1;
 
   pointer-events: auto;

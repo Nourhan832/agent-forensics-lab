@@ -5,8 +5,9 @@ const assert = require('node:assert/strict');
 const catalogs = JSON.parse(fs.readFileSync(0, 'utf8'));
 const elements = new Map();
 function element(id = '') {
+  const classes = new Set();
   return {id, textContent: '', innerHTML: '', disabled: false, hidden: false,
-    style: {}, dataset: {}, listeners: {}, children: [], classList: {add(){}, remove(){}, toggle(){}},
+    style: {}, dataset: {}, listeners: {}, children: [], classList: {add(c){classes.add(c);}, remove(c){classes.delete(c);}, contains(c){return classes.has(c);}, toggle(c){classes.has(c)?classes.delete(c):classes.add(c);}},
     addEventListener(event, callback){this.listeners[event] = callback;},
     setAttribute(){}, scrollIntoView(){}, appendChild(child){this.children.push(child);}, click(){},
     querySelector(selector){return get(id + selector);}, querySelectorAll(){return [];}};
@@ -20,9 +21,11 @@ const domainButtons = ['customer_support', 'emergency_response'].map(domain => {
 });
 const requests=[];
 let nextResponse;
+const activeTimers = new Set();
+let timerId = 0;
 const context = vm.createContext({console:{error(){}}, URL, Blob, Set,
-  setInterval(){return 1;},
-  window:{location:{origin:'http://audit.local'}}, alert(){}, setTimeout(fn){fn();}, clearInterval(){},
+  setInterval(){activeTimers.add(++timerId);return timerId;},
+  window:{location:{origin:'http://audit.local'}}, alert(){}, setTimeout(fn){fn();}, clearInterval(id){activeTimers.delete(id);},
   document: {getElementById:get, createElement:element,
     querySelector(selector){
       const match=selector.match(/^\[data-category="([^"]+)"\]$/);
@@ -34,7 +37,7 @@ const context = vm.createContext({console:{error(){}}, URL, Blob, Set,
     }},
   fetch: async (url, options) => {
     requests.push({url, options});
-    if(nextResponse){const r=nextResponse;nextResponse=undefined;return r;}
+    if(nextResponse){const r=nextResponse;nextResponse=undefined;if(r instanceof Error) throw r;return r;}
     let data = url.endsWith('/ready') ? {status:'ready'} : {success:true,regressions:[]};
     if(url.includes('/api/categories?domain=')) data={categories:catalogs[url.split('domain=')[1]]};
     return {ok:true,json:async()=>data};
@@ -51,7 +54,28 @@ function payload({reproduced=true, before=true, after=false, bc=true, ac=true, v
 async function main(){
   await new Promise(resolve=>setImmediate(resolve));
   const name=process.argv[2];
-  if(['verified_customer','verified_emergency','not_reproduced','other_failure','protected_violation','incomplete_before','incomplete_after','contradictory_receipt','saved_replay'].includes(name)){
+  if(name.startsWith('loading_cleanup_')) {
+    // Cleanup must be synchronous, even when scheduled callbacks have not run.
+    context.setTimeout = () => {};
+    const mode=name.replace('loading_cleanup_','');
+    const replay=mode.startsWith('replay');
+    if(replay) run("lastResult={failed:true,category_failure_detected:true,attack:{user_message:'Task'}};");
+    if(mode==='network') nextResponse=new Error('Network unavailable');
+    else if(mode==='error'||mode==='replay_error') nextResponse={ok:false,status:503,json:async()=>({detail:'Unavailable'})};
+    else if(replay) nextResponse=response(payload());
+    else nextResponse=response({success:true,result:{attack:{user_message:'Task'},events:[],failed:false,category_failure_detected:false,agent_result:{completed:mode!=='incomplete',final_response:'Recorded response'}}});
+    if(replay) run('showLoading();workflowBusy=false;runButton.disabled=false;');
+    await get(replay?'replayButton':'runInvestigationButton').listeners.click();
+    assert.equal(get('loadingOverlay').classList.contains('active'),false);
+    assert.equal(activeTimers.size,0);
+    assert.equal(context.window.loadingPhaseInterval,null);
+    assert.equal(run('workflowBusy'),false);
+    assert.equal(get('runInvestigationButton').disabled,false);
+    assert.equal(get('runButtonText').textContent,'Run investigation');
+    const css=fs.readFileSync('frontend/styles.css','utf8');
+    assert.match(css,/\.loading-overlay\s*\{[^}]*display:\s*none/s);
+    assert.match(css,/\.loading-overlay\.active\s*\{[^}]*display:\s*grid/s);
+  } else   if(['verified_customer','verified_emergency','not_reproduced','other_failure','protected_violation','incomplete_before','incomplete_after','contradictory_receipt','saved_replay'].includes(name)){
     run(`activeDomain='${name==='verified_customer'?'customer_support':'emergency_response'}'; activeCategory='emergency_dispatch'; regressionTest.textContent='status:\\n  pending_replay';`);
     let p=payload();
     if(name==='not_reproduced') p=payload({reproduced:false,before:false,verified:false});

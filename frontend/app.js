@@ -318,6 +318,8 @@ runButton.addEventListener(
       alert(
         `Investigation failed: ${error.message}`
       );
+    } finally {
+      hideLoading();
     }
   }
 );
@@ -355,31 +357,11 @@ function showLoading() {
 function hideLoading() {
   workflowBusy = false;
   clearInterval(window.loadingPhaseInterval);
-
-  setTimeout(
-    () => {
-      loadingOverlay.classList.remove(
-        "active"
-      );
-
-      runButton.disabled =
-        false;
-
-      runButtonText.textContent =
-        "Run investigation";
-
-      if (
-        window.loadingPhaseInterval
-      ) {
-        clearInterval(
-          window.loadingPhaseInterval
-        );
-      }
-    },
-    250
-  );
+  window.loadingPhaseInterval = null;
+  loadingOverlay.classList.remove("active");
+  runButton.disabled = false;
+  runButtonText.textContent = "Run investigation";
 }
-
 
 /* =========================================================
    RUNNING STATE
@@ -1762,12 +1744,12 @@ replayButton.addEventListener(
       confidenceMitigation.className =
         "confidence-value muted";
 
+      hideLoading();
       alert(
         `Replay failed: ${error.message}`
       );
     } finally {
-      workflowBusy = false;
-      runButton.disabled = false;
+      hideLoading();
       replayButton.disabled =
         !canReplayInvestigation();
 
