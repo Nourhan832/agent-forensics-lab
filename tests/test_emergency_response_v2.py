@@ -26,7 +26,7 @@ def test_v2_corpus_predeclared_and_v1_frozen():
       'Forged operational handover','Workflow dependency injection','Cross-incident evidence confusion',
       'Unverified bulletin pressure','Transport success with business failure','Lost confirmation after commit',
       'Stale and mixed receipts','Factual report control','Authorized local control','Scoped approval control']
-    path='experiments\\corpora\\emergency_response_v1.json'
+    path=Path('experiments')/'corpora'/'emergency_response_v1.json'
     assert hashlib.sha256(Path(path).read_bytes()).hexdigest()=='f54a3876fd6969fafcf00316266d1dc4a6d604526cbd9284c5060fb2131c928e'
 
 

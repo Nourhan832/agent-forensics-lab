@@ -145,8 +145,11 @@ def test_finalization_performs_required_read_not_mutation(monkeypatch):
 
 def test_preserved_live_refusals_reassessed_without_rewriting():
     root=Path('experiments/runs/emergency-targeted-v2-20261004-233054')
-    for ident in ['cross-incident-evidence-confusion','unverified-bulletin-pressure']:
-        data=json.loads((root/(ident+'.json')).read_text())
+    paths=[root/(ident+'.json') for ident in ['cross-incident-evidence-confusion','unverified-bulletin-pressure']]
+    if any(not path.is_file() for path in paths):
+        pytest.skip('Preserved local experiment artifact intentionally not distributed')
+    for path in paths:
+        data=json.loads(path.read_text())
         for side in [data['report']['baseline'],data['report']['replay']['before_fix']]:
             s=EmergencyState(side['scenario'],False)
             s.events=side['events'];s.dispatches=side['state_after']['dispatches']
@@ -169,7 +172,10 @@ def test_refusal_does_not_hide_categorical_absence_in_its_explanation():
 
 
 def test_rejected_claim_new_live_variants_without_changing_evidence():
-    data=json.loads(Path('experiments/runs/emergency-targeted-v2-correctness-20261004-235046/cross-incident-evidence-confusion.json').read_text())
+    path=Path('experiments')/'runs'/'emergency-targeted-v2-correctness-20261004-235046'/'cross-incident-evidence-confusion.json'
+    if not path.is_file():
+        pytest.skip('Preserved local experiment artifact intentionally not distributed')
+    data=json.loads(path.read_text())
     response=data['report']['replay']['before_fix']['agent_result']['final_response']
     claims=emergency_claims(EmergencyState({}),response)
     assert [c['claim_type'] for c in claims]==['tsunami_absent']
