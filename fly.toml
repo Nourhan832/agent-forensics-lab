@@ -32,7 +32,7 @@ kill_timeout = 300
   PYTHONDONTWRITEBYTECODE = "1"
 
 [[mounts]]
-  source = "afl_data"
+  source = "afl_production"
   destination = "/data"
 
 [http_service]
