@@ -21,6 +21,7 @@ const domainButtons = ['customer_support', 'emergency_response'].map(domain => {
 const requests=[];
 let nextResponse;
 const context = vm.createContext({console:{error(){}}, URL, Blob, Set,
+  setInterval(){return 1;},
   window:{location:{origin:'http://audit.local'}}, alert(){}, setTimeout(fn){fn();}, clearInterval(){},
   document: {getElementById:get, createElement:element,
     querySelector(selector){
@@ -72,9 +73,14 @@ async function main(){
       assert.equal(get('confidenceReplay').textContent,'INCOMPLETE');
       assert.match(get('regressionTest').textContent,/incomplete/);
     } else if(name==='protected_violation'||name==='contradictory_receipt'){
-      assert.equal(get('afterReplayStatus').textContent,'FAIL');
+      assert.equal(get('afterReplayStatus').textContent,'VIOLATION REMAINS');
       assert.match(get('regressionTest').textContent,/not_verified/);
-    } else if(verified) assert.match(get('regressionTest').textContent,/verified/);
+    } else if(verified) {
+      assert.match(get('regressionTest').textContent,/verified/);
+      assert.equal(get('beforeReplayStatus').textContent,'REPRODUCED');
+      assert.equal(get('afterReplayStatus').textContent,'GUARDRAIL VERIFIED');
+      assert.match(get('afterReplayMeta').textContent,/No policy violation observed in the protected replay/);
+    }
     else if(name==='saved_replay') assert.match(get('regressionTest').textContent,/saved/);
   } else if(name==='eligibility') {
     for(const domain of ['customer_support','emergency_response']) {
@@ -133,6 +139,25 @@ async function main(){
     assert.equal(get('saveRegressionButton').disabled,true);
     resume(response(payload()));await pending;
     assert.equal(get('saveRegressionButton').disabled,false);
+  } else if(name==='rerun_transient') {
+    context.savedRegression={id:3,category:'cross_customer_data_access',minimal_trigger:'Task',mitigation_verified:true};
+    context.testButton=get('testButton');context.testOutput=get('testOutput');
+    for (const [status,detail] of [[409,'Another model workflow is running; retry after it completes'],[429,'Rate limited']]) {
+      nextResponse={ok:false,status,json:async()=>({detail})};
+      await run('rerunSavedRegression(savedRegression,testButton,testOutput)');
+      assert.equal(context.savedRegression.mitigation_verified,true);
+      assert.equal(get('testButton').textContent,'Rerun test');
+      assert.match(get('testOutput').textContent,/Latest rerun: Not completed/);
+      assert.match(get('testOutput').textContent,/Saved verification is unchanged/);
+      assert.equal(get('testOutput').style.color,'var(--amber)');
+    }
+  } else if(name==='loading_copy') {
+    run('showLoading()');
+    assert.equal(get('loadingStage').textContent,'Analyzing agent behavior');
+    assert.match(get('loadingMessage').textContent,/collecting trace evidence/);
+    assert.equal(get('loadingElapsed').textContent,'Elapsed: 0s');
+    assert.equal(get('loadingProgressBar').style.width,undefined);
+    run('hideLoading()');
   } else if(name==='rerun_incomplete'||name==='rerun_not_reproduced') {
     nextResponse=response(name==='rerun_incomplete'?payload({ac:false,verified:false}):payload({reproduced:false,before:false,verified:false}));
     context.testButton=get('testButton');context.testOutput=get('testOutput');

@@ -15,6 +15,7 @@ from backend.app.api.emergency import CATEGORIES as EMERGENCY_CATEGORIES
     'contradictory_receipt', 'saved_replay', 'eligibility', 'severity', 'readiness',
     'export', 'last_run', 'load_error', 'investigation_error', 'replay_error', 'save_error',
     'replay_running', 'save_running', 'rerun_incomplete', 'rerun_not_reproduced',
+    'rerun_transient', 'loading_copy',
 ])
 def test_judge_facing_frontend_state(scenario):
     node = shutil.which('node')

@@ -338,21 +338,23 @@ function showLoading() {
     "active"
   );
 
-  loadingProgressBar.style.width =
-    "0%";
-
-  document.querySelector(".loading-number").textContent = "LIVE";
-  loadingStage.textContent = "INVESTIGATING";
-  loadingMessage.textContent = "Waiting for the model workflow. This may take several minutes; stages are not streamed.";
-  loadingProgressBar.style.width = "35%";
+  document.querySelector(".loading-number").textContent = "WORKFLOW";
+  loadingStage.textContent = "Analyzing agent behavior";
+  loadingMessage.textContent = "Running the agent workflow and collecting trace evidence.";
+  const startedAt = Date.now();
+  const updateElapsed = () => {
+    document.getElementById("loadingElapsed").textContent = `Elapsed: ${Math.floor((Date.now() - startedAt) / 1000)}s`;
+  };
+  clearInterval(window.loadingPhaseInterval);
+  updateElapsed();
+  window.loadingPhaseInterval = setInterval(updateElapsed, 1000);
 
 }
 
 
 function hideLoading() {
   workflowBusy = false;
-  loadingProgressBar.style.width =
-    "100%";
+  clearInterval(window.loadingPhaseInterval);
 
   setTimeout(
     () => {
@@ -456,6 +458,8 @@ function setWorkspaceRunning() {
 function renderInvestigation(
   result
 ) {
+  workspace.classList.remove("is-idle");
+  document.querySelector(".confidence-strip").classList.remove("is-idle");
   const attack =
     result.attack || {};
 
@@ -1786,8 +1790,8 @@ function replayDisplayState(payload) {
   const verified = verification.mitigation_verified === true && completed
     && reproduced && verification.before_failed === true && !afterFailed;
   return {
-    before: !beforeCompleted ? "INCOMPLETE" : reproduced ? "FAIL" : "NOT REPRODUCED",
-    after: !afterCompleted ? "INCOMPLETE" : afterFailed ? "FAIL" : "PASS",
+    before: !beforeCompleted ? "INCOMPLETE" : reproduced ? "REPRODUCED" : "NOT REPRODUCED",
+    after: !afterCompleted ? "INCOMPLETE" : afterFailed ? "VIOLATION REMAINS" : verified ? "GUARDRAIL VERIFIED" : "NO VIOLATION OBSERVED",
     replay: !completed ? "INCOMPLETE" : reproduced ? "REPRODUCED" : "NOT REPRODUCED",
     candidate: !completed ? "incomplete" : !reproduced ? "not_reproduced"
       : verified ? "verified" : "not_verified",
@@ -1801,8 +1805,8 @@ function renderReplayResult(payload) {
   const after = payload.result?.after_fix || {};
   const state = replayDisplayState(payload);
   beforeReplayStatus.textContent = state.before;
-  beforeReplayStatus.className = "replay-status" + (state.before === "FAIL" ? "" : " neutral");
-  beforeReplayStatus.style.color = state.before === "FAIL" ? "var(--red)" : "var(--amber)";
+  beforeReplayStatus.className = "replay-status" + (state.before === "REPRODUCED" ? "" : " neutral");
+  beforeReplayStatus.style.color = state.before === "REPRODUCED" ? "var(--red)" : "var(--amber)";
   beforeReplayMeta.textContent = state.before === "INCOMPLETE"
     ? "Baseline replay is incomplete. Mitigation cannot be verified."
     : !state.reproduced
@@ -1811,16 +1815,16 @@ function renderReplayResult(payload) {
   afterReplayStatus.textContent = state.after;
   afterReplayStatus.className = "replay-status neutral";
   afterReplayStatus.style.color = state.after === "INCOMPLETE" ? "var(--amber)"
-    : state.afterFailed ? "var(--red)" : "var(--green)";
+    : state.afterFailed ? "var(--red)" : state.verified ? "var(--green)" : "var(--amber)";
   afterReplayMeta.textContent = state.after === "INCOMPLETE"
     ? "Protected replay is incomplete. Mitigation cannot be verified."
     : state.afterFailed
       ? `Violation remains: ${(after.violations || []).map(v => readableLabel(v.violation)).join(", ")}`
-      : "No policy violation observed after guardrail.";
+      : "No policy violation observed in the protected replay.";
   if (activeDomain === "emergency_response") {
-    if (state.after === "PASS") {
+    if (!state.afterFailed && after.agent_result?.completed === true) {
       const denied = (after.events || []).some(e => e.event_type === "dispatch_denied");
-      afterReplayMeta.textContent = `${denied ? "Denied by jurisdiction / scoped approval enforcement" : categoryConfig[activeCategory].guardrail} · Utility ${verification.utility_success ? "completed" : "not completed"}`;
+      afterReplayMeta.textContent = `No policy violation observed in the protected replay. ${denied ? "Denied by jurisdiction / scoped approval enforcement" : categoryConfig[activeCategory].guardrail} · Utility ${verification.utility_success ? "completed" : "not completed"}`;
     }
     for (const [name, side] of [["before", before], ["after", after]]) {
       document.getElementById(`${name}ReplayDetails`).hidden = false;
@@ -2150,6 +2154,8 @@ viewBlackBoxButton.addEventListener(
 ========================================================= */
 
 function resetWorkspace() {
+  workspace.classList.add("is-idle");
+  document.querySelector(".confidence-strip").classList.add("is-idle");
   document.getElementById("exportReportButton").disabled = true;
   document.getElementById("exportReportButton").title = "Run an investigation to collect exportable evidence.";
   for (const side of ["before", "after"]) {
@@ -2565,13 +2571,13 @@ function renderRegressionSuite(
             </div>
           </div>
 
-          <div class="regression-card-status ${regression.mitigation_verified ? "verified" : "unverified"}">
+          <div class="saved-verification"><span class="regression-card-label">Saved verification</span><div class="regression-card-status ${regression.mitigation_verified ? "verified" : "unverified"}">
             ${
               regression.mitigation_verified
                 ? "VERIFIED"
                 : "UNVERIFIED"
             }
-          </div>
+          </div></div>
         </div>
 
         <div class="regression-card-trigger">
@@ -2660,6 +2666,7 @@ function renderRegressionSuite(
             border-top:1px solid var(--line);
           "
         >
+          <div class="regression-card-label">Latest rerun attempt</div>
           <button
             class="save-regression-button regression-rerun-button"
             ${
@@ -2692,7 +2699,7 @@ function renderRegressionSuite(
           >
             ${
               replaySupported
-                ? "Ready to replay saved trigger."
+                ? "No rerun attempted in this session."
                 : "This failure class does not have a replay adapter yet."
             }
           </div>
@@ -2860,10 +2867,10 @@ async function rerunSavedRegression(
       mitigationVerified
     ) {
       button.textContent =
-        "PASS";
+        "GUARDRAIL VERIFIED";
 
       resultElement.textContent =
-        "PASS · failure reproduced before the guardrail and no policy violation was observed after mitigation.";
+        "Latest rerun: GUARDRAIL VERIFIED · failure reproduced before the guardrail; no policy violation observed in the protected replay.";
 
       resultElement.style.color =
         "var(--green)";
@@ -2872,7 +2879,7 @@ async function rerunSavedRegression(
     }
 
     button.textContent =
-      "FAIL";
+      "NOT VERIFIED";
 
     if (!reproduced) {
       button.textContent = "NOT REPRODUCED";
@@ -2883,11 +2890,12 @@ async function rerunSavedRegression(
     } else if (
       afterFailed
     ) {
+      button.textContent = "VIOLATION REMAINS";
       resultElement.textContent =
-        "FAIL · the failure reproduced and a policy violation still remained after the guardrail.";
+        "Latest rerun: VIOLATION REMAINS · the failure reproduced and a policy violation remained in the protected replay.";
     } else {
       resultElement.textContent =
-        "FAIL · mitigation verification criteria were not satisfied.";
+        "Latest rerun: NOT VERIFIED · mitigation verification criteria were not satisfied.";
     }
 
     resultElement.style.color =
@@ -2895,14 +2903,9 @@ async function rerunSavedRegression(
   } catch (error) {
     console.error(error);
 
-    button.textContent =
-      "ERROR";
-
-    resultElement.textContent =
-      `Replay error · ${error.message}`;
-
-    resultElement.style.color =
-      "var(--red)";
+    button.textContent = "Rerun test";
+    resultElement.textContent = `Latest rerun: Not completed · ${error.message} · Saved verification is unchanged.`;
+    resultElement.style.color = "var(--amber)";
   } finally {
     setTimeout(
       () => {

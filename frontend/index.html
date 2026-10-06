@@ -18,7 +18,7 @@
 
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=judge-polish-20261006"
+    href="/assets/styles.css?v=content-polish-20261006"
   />
 </head>
 
@@ -84,7 +84,7 @@
           type="button"
           onclick="document.getElementById('benchmarkSection').scrollIntoView({ behavior: 'smooth', block: 'start' });"
         >
-          Benchmarks
+          Evidence
         </button>
 
       </nav>
@@ -127,9 +127,9 @@
           Investigation console
         </div>
 
-        <h1>Trace, reproduce, and prevent unsafe agent behavior.</h1>
+        <h1>Trace what your AI agent actually did.</h1>
 
-        <p class="hero-description">Forensic analysis for tool-using AI agents.</p>
+        <p class="hero-description">Detect unsafe tool behavior, reproduce the failure, apply a guardrail, and verify the fix.</p>
 
 
         <p id="domainLimitations" class="regression-suite-description">Controlled customer-support sandbox. Exact-case replay uses an LLM and may vary. Verification applies only to the completed baseline/protected pair tested.</p>
@@ -542,7 +542,7 @@
            PHASE 1
       ==================================================== -->
 
-      <div class="phase-block">
+      <div class="phase-block discover-phase">
 
         <div class="phase-index">
           01
@@ -699,7 +699,7 @@
            PHASE 4
       ==================================================== -->
 
-      <div class="phase-block">
+      <div class="phase-block localize-phase">
 
         <div class="phase-index">
           04
@@ -1114,6 +1114,13 @@
     <section id="benchmarkSection" class="benchmark-section" data-evidence-label="CONTROLLED BENCHMARK">
       <div class="benchmark-heading"><div class="section-kicker">Evaluation results</div><h2>Final Combined Benchmark</h2></div>
       <p class="regression-suite-description">Frozen final-combined-20261005-005502 · audited exact-case evidence. Initial failures and conditional mitigation have distinct denominators; these are not universal protection rates.</p>
+      <div class="evidence-summary" aria-label="Frozen audited benchmark summary">
+        <article><strong>132/132</strong><span>Completed benchmark cases</span></article>
+        <article><strong>67/67</strong><span>Audited mitigations verified</span></article>
+        <article><strong>0</strong><span>Protected-policy violations</span></article>
+        <article><strong>41/41</strong><span>Benign utility controls preserved</span></article>
+      </div>
+      <p class="evidence-summary-scope">Utility preservation covers baseline-successful tasks; overall benign success is 41/45. These results apply to the frozen evaluated cases only.</p>
       <div class="evidence-domains">
         <article class="evidence-card"><h3>Customer Support</h3>
           <p>Cross-customer: <strong>29/30</strong> initial failures · <strong>29/29</strong> audited mitigation</p>
@@ -1164,25 +1171,28 @@
       <div class="loading-core">
 
         <div class="loading-number">
-          01
+          WORKFLOW
         </div>
 
         <div
           id="loadingStage"
           class="loading-stage"
         >
-          DISCOVER
+          Analyzing agent behavior
         </div>
 
         <div
           id="loadingMessage"
           class="loading-message"
         >
-          Generating adversarial test...
+          Running the agent workflow and collecting trace evidence.
         </div>
 
 
-        <div class="loading-progress">
+        <p class="loading-includes">This investigation includes: Discover · Execute · Detect · Localize · Replay</p>
+        <p class="loading-expectation">Model workflows can take 1–3 minutes.<br>The page will update automatically when evidence is ready.</p>
+        <p id="loadingElapsed" class="loading-elapsed" aria-label="Elapsed time">Elapsed: 0s</p>
+        <div class="loading-progress" aria-hidden="true">
 
           <div
             id="loadingProgressBar"
@@ -1199,7 +1209,7 @@
 
 
 <button id="exportReportButton" class="secondary-cta" type="button" disabled title="Run an investigation to collect exportable evidence.">Export evidence · JSON</button>
-  <script src="/assets/app.js?v=judge-polish-20261006"></script>
+  <script src="/assets/app.js?v=content-polish-20261006"></script>
 
 </body>
 
