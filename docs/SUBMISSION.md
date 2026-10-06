@@ -19,18 +19,20 @@ Lead with: **“Your agent can refuse in its final answer after it has already r
 
 Model calls may take minutes. Capture a genuine completed run beforehand and edit waiting time out, clearly labeling time cuts. If an LLM rerun does not reproduce, explain stochastic non-reproduction; retry visibly or use another clearly labeled genuine captured run. Do not substitute scripted test doubles for a live product demo. AFL-3/AFL-4 are local cases; a clean public deployment needs cases created through live verification.
 
-## Prioritized submission checklist
+## Current submission state
 
-1. Publish a public repository containing the MIT license, setup guide, and reproducible artifacts. This workspace did not initially contain Git metadata; publication is still outstanding. Verify exclusions before the first commit and check any existing remote history for secrets.
-2. Deploy and independently test a working build with server credentials, persistence and spend controls. Provide judge access instructions and maintain free access through judging.
-3. Publish an English demo video no longer than three minutes; add actual repository, demo and video URLs to README and submission.
-4. Submit a concrete problem/implementation/impact description and **feedback on Nebius and NVIDIA technologies**. If work predates the submission period, describe substantial updates. Confirm eligibility and ownership in the official submission flow.
-5. Rerun a timestamped benchmark against the final code, retain full artifacts/provenance, and add legitimate-task utility cases. Keep the historical results labeled as historical.
+The live app is deployed at [agent-forensics-lab.fly.dev](https://agent-forensics-lab.fly.dev/). The final UI is frozen, and the repository privacy audit passed. The repository remains private pending explicit publication approval. Frozen benchmark evidence and its provenance remain preserved; no new benchmark is required for this documentation pass.
+
+## Remaining submission checklist
+
+1. Make the existing licensed repository public after explicit approval; preserve the verified privacy exclusions and sanitized public evidence.
+2. Publish the final English YouTube demonstration under three minutes and add its actual URL to README and Devpost. No public video URL is recorded yet.
+3. Complete Devpost fields: **Best Apps and Agents**, project features/implementation/impact, repository/demo/video URLs, judge testing instructions, and factual Nebius/NVIDIA feedback. Confirm eligibility and ownership; explain significant updates only if the project predates the submission period. Maintain free judge access through judging.
 
 The event's [official rules](https://nebiusglobalaihackathon.devpost.com/rules) specify runtime Nebius/NVIDIA use, a public licensed repository, a short public video, accessible test build, sponsor feedback and four equally weighted judging dimensions. Check the current rules before submitting. This document uses the user's longer rubric for preparation, not an official scoring formula.
 
-## Feedback notes to complete from real experience
+## Technology feedback
 
-The code confirms that the OpenAI-compatible interface allowed one shared client for adversarial generation, tool decisions and minimizer proposals. The repository also shows why model generation is separated from deterministic evaluation. Describe actual setup friction, JSON-decision behavior, latency, cost and SDK experience from your run records. The old virtualenv was broken locally, which is an environment issue rather than evidence of a Nebius service defect.
+Nebius Token Factory supplied the OpenAI-compatible inference endpoint for live agent execution, replay, minimization, and controlled multi-model evaluation. NVIDIA Nemotron was the primary forensic-workflow model. A shared client integration and model access through the same provider/API layer supported the controlled Nemotron/Hermes/Qwen comparison. See the README technology feedback subsection for submission-ready wording.
 
-No unsupported latency, throughput, cost, service reliability, model superiority, customer validation or GPU-utilization claims are supplied. The required feedback section needs the owner's real observations.
+Do not add latency, throughput, reliability, model-superiority, or compliance claims without supporting evidence.

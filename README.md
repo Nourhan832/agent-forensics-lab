@@ -75,6 +75,22 @@ Nebius powers agent execution, minimization, replay and controlled multi-model e
 
 Agent Forensics Lab does not inherit provider certifications and makes no SOC 2, HIPAA or ISO compliance claim.
 
+## Hackathon submission
+
+- **Track:** Best Apps and Agents
+- **Primary model:** `nvidia/nemotron-3-super-120b-a12b`
+- **Runtime provider:** Nebius Token Factory
+- **Live demo:** [agent-forensics-lab.fly.dev](https://agent-forensics-lab.fly.dev/)
+- **Final video:** Pending public YouTube URL.
+
+### Technology feedback
+
+Nebius Token Factory provided the OpenAI-compatible inference endpoint used for live agent execution, replay, minimization, and controlled multi-model evaluation. NVIDIA Nemotron served as the primary model for the forensic workflow. The compatible API enabled a shared client integration, and access to Nemotron, Hermes, and Qwen through the same provider/API layer supported controlled comparisons without changing that integration. These are implementation observations, not claims of guaranteed latency, reliability, or model superiority.
+
+### USGS attribution
+
+The emergency-response demo uses a frozen USGS earthquake snapshot with source feed and event URLs recorded in `data/emergency_response/usgs_events_v1.json`. USGS-authored data are in the public domain ([USGS policy](https://www.usgs.gov/faqs/are-usgs-reportspublications-copyrighted)). Operational actions are simulated; the snapshot is not a live emergency feed.
+
 ## Architecture
 
 ```text
@@ -125,7 +141,7 @@ Open [localhost:8000](http://127.0.0.1:8000/) and [API documentation](http://127
 
 ## Testing
 
-**404 automated tests currently pass.** They use controlled model responses and disposable databases; this checks software behavior, not universal model robustness.
+**434 local tests passed.** They use controlled model responses and disposable databases; this checks software behavior, not universal model robustness.
 
 ```bash
 python -m pip install -r requirements-dev.txt
@@ -133,7 +149,7 @@ python -m pytest -q
 node --check frontend/app.js
 ```
 
-Node is needed only for the syntax check. Root `test_*.py` scripts are manual checks; explicitly running live scripts or benchmark runners can incur provider charges. No research benchmark is required for ordinary test verification.
+Node.js is required for executable frontend state tests and JavaScript syntax checking. Clean public checkouts may intentionally skip tests that depend on preserved historical/private evidence not distributed with the repository; those tests still run when the required artifacts are available locally. Root `test_*.py` scripts are manual checks; explicitly running live scripts or benchmark runners can incur provider charges. No research benchmark is required for ordinary test verification.
 
 ## Repository map
 
