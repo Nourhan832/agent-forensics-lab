@@ -18,7 +18,7 @@
 
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=enterprise-20261005-sponsors"
+    href="/assets/styles.css?v=judge-polish-20261006"
   />
 </head>
 
@@ -94,7 +94,7 @@
 
         <div class="runtime-item">
           <span class="runtime-dot"></span>
-          Online
+          <span id="runtimeStatus" role="status">Checking readiness</span>
         </div>
 
         <div class="runtime-item inference-label">
@@ -403,7 +403,7 @@
 
           </div>
 
-          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+          <div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">
             →
           </div>
 
@@ -432,7 +432,7 @@
 
           </div>
 
-          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+          <div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">
             →
           </div>
 
@@ -461,7 +461,7 @@
 
           </div>
 
-          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+          <div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">
             →
           </div>
 
@@ -490,15 +490,15 @@
 
           </div>
 
-          <div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">
+          <div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">
             →
           </div>
 
         </button>
-<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_dispatch"><div class="investigation-number">01</div><div class="investigation-card-body"><div class="investigation-card-title">Unauthorized Resource Dispatch</div><div class="investigation-card-copy">Review approval scope, expiry and jurisdiction before simulated allocation.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
-<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_injection"><div class="investigation-number">02</div><div class="investigation-card-body"><div class="investigation-card-title">Indirect Prompt Injection</div><div class="investigation-card-copy">Trace untrusted field reports into downstream operational actions.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
-<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_emergency_claim"><div class="investigation-number">03</div><div class="investigation-card-body"><div class="investigation-card-title">Unsupported Emergency Claim</div><div class="investigation-card-copy">Bind severe claims to the correct trusted incident and evidence.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
-<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_dispatch_claim"><div class="investigation-number">04</div><div class="investigation-card-body"><div class="investigation-card-title">False Dispatch Claim</div><div class="investigation-card-copy">Compare completion claims with matching dispatch receipts.</div></div><div class="investigation-meta"><span>Severity: unrated</span><span>Replay supported</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_dispatch"><div class="investigation-number">01</div><div class="investigation-card-body"><div class="investigation-card-title">Unauthorized Resource Dispatch</div><div class="investigation-card-copy">Review approval scope, expiry and jurisdiction before simulated allocation.</div></div><div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_injection"><div class="investigation-number">02</div><div class="investigation-card-body"><div class="investigation-card-title">Indirect Prompt Injection</div><div class="investigation-card-copy">Trace untrusted field reports into downstream operational actions.</div></div><div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_emergency_claim"><div class="investigation-number">03</div><div class="investigation-card-body"><div class="investigation-card-title">Unsupported Emergency Claim</div><div class="investigation-card-copy">Bind severe claims to the correct trusted incident and evidence.</div></div><div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">→</div></button>
+<button type="button" class="investigation-card" hidden data-investigation-domain="emergency_response" data-category="emergency_dispatch_claim"><div class="investigation-number">04</div><div class="investigation-card-body"><div class="investigation-card-title">False Dispatch Claim</div><div class="investigation-card-copy">Compare completion claims with matching dispatch receipts.</div></div><div class="investigation-meta"><span class="category-severity">Severity: loading</span><span class="category-replay">Replay: loading</span></div><div class="investigation-arrow">→</div></button>
 
 
       </div>
@@ -583,7 +583,7 @@
           <div class="phase-heading">Execute</div>
 
           <div class="phase-title">
-            Recovered black box
+            Recorded tool trace
           </div>
 
           <div
@@ -836,7 +836,7 @@
           <div class="phase-heading">Repair + replay</div>
 
           <div class="phase-title">
-            Verify the fix against the exact same trigger
+            Replay the same trigger
           </div>
 
 
@@ -944,7 +944,7 @@
           <div class="phase-heading">Regression</div>
 
           <div class="phase-title">
-            Convert the failure into a permanent test
+            Save a verified regression
           </div>
 
 
@@ -1040,7 +1040,7 @@
       <div class="confidence-item">
 
         <div class="confidence-label">
-          Mitigation
+          Guardrail verification
         </div>
 
         <div
@@ -1198,8 +1198,8 @@
   </div>
 
 
-<button id="exportReportButton" class="secondary-cta" type="button">Export evidence · JSON</button>
-  <script src="/assets/app.js?v=enterprise-20261005-sponsors"></script>
+<button id="exportReportButton" class="secondary-cta" type="button" disabled title="Run an investigation to collect exportable evidence.">Export evidence · JSON</button>
+  <script src="/assets/app.js?v=judge-polish-20261006"></script>
 
 </body>
 

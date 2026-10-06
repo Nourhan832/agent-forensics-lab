@@ -12,6 +12,18 @@ let lastReplayResult = null;
 let lastSavedRegressionId = null;
 let workflowBusy = false;
 
+function canReplayInvestigation() {
+  return !!lastResult?.failed && lastResult.category_failure_detected === true
+    && replaySupportedCategories.has(activeCategory);
+}
+
+function setCandidateStatus(status) {
+  if (lastSavedRegressionId) return;
+  regressionTest.textContent = regressionTest.textContent.replace(
+    /status:\s*\n\s*[a-z_]+/, `status:\n  ${status}`
+  );
+}
+
 const categoryConfig = {
   indirect_prompt_injection: {
     title: "Indirect Prompt Injection",
@@ -292,6 +304,11 @@ runButton.addEventListener(
 
       hideLoading();
 
+      heroBlackboxStatus.textContent = "ERROR";
+      heroEventStream.textContent = "STOPPED";
+      heroOracleStatus.textContent = "NOT EVALUATED";
+      heroBlackboxGraph.innerHTML = '<div class="graph-node node-agent"><span class="node-value">No execution result available.</span></div>';
+      confidenceRule.textContent = "NOT EVALUATED";
       workspaceStatus.textContent =
         "ERROR";
 
@@ -519,7 +536,9 @@ function renderInvestigation(
   );
 
   renderConfidence(failed);
-  replayButton.disabled = (!failed && activeDomain !== "emergency_response") || !replaySupportedCategories.has(activeCategory);
+  replayButton.disabled = !canReplayInvestigation();
+  document.getElementById("exportReportButton").disabled = false;
+  document.getElementById("exportReportButton").title = "Download the recorded investigation and replay evidence as JSON.";
   saveRegressionButton.disabled = true;
   if (result.agent_result?.completed === false) {
     forensicsVerdict.textContent = failed ? "FAIL / INCOMPLETE" : "INCOMPLETE";
@@ -538,6 +557,10 @@ function renderInvestigation(
     failed
       ? "workspace-status failed"
       : "workspace-status safe";
+  workspaceStatus.title = result.agent_result?.completed === false
+    ? "Execution is incomplete; the remaining behavior is not verified."
+    : failed ? "Unsafe behavior detected in the recorded execution."
+      : "No unsafe behavior was detected in this execution.";
   if (activeDomain === "emergency_response" && result.agent_result?.completed === false) {
     workspaceStatus.textContent = "INCOMPLETE EXECUTION";
     workspaceStatus.className = "workspace-status";
@@ -1527,7 +1550,7 @@ function renderConfidence(
     "EVALUATED";
 
   confidenceRule.className =
-    "confidence-value green";
+    "confidence-value muted";
 
   if (failed) {
     confidenceReplay.textContent =
@@ -1572,7 +1595,7 @@ replayButton.addEventListener(
   async () => {
     if (workflowBusy) return;
     if (
-      (!lastResult?.failed && activeDomain !== "emergency_response")
+      !canReplayInvestigation()
     ) {
       alert(
         "There is no confirmed failure to replay."
@@ -1619,6 +1642,15 @@ replayButton.addEventListener(
       runButton.disabled = true;
       saveRegressionButton.disabled = true;
       lastReplayResult = null;
+      setCandidateStatus("replaying");
+      beforeReplayStatus.textContent = "RUNNING";
+      beforeReplayStatus.className = "replay-status neutral";
+      beforeReplayMeta.textContent = "Waiting for baseline replay.";
+      afterReplayMeta.textContent = "Waiting for protected replay.";
+      for (const side of ["before", "after"]) {
+        document.getElementById(`${side}ReplayDetails`).hidden = true;
+        document.getElementById(`${side}ReplayEvidence`).textContent = "";
+      }
       replayButton.disabled =
         true;
 
@@ -1697,6 +1729,11 @@ replayButton.addEventListener(
       lastReplayResult =
         null;
 
+      setCandidateStatus("replay_error");
+      beforeReplayStatus.textContent = "ERROR";
+      beforeReplayStatus.className = "replay-status neutral";
+      beforeReplayMeta.textContent = "Replay could not be completed.";
+
       afterReplayStatus.textContent =
         "ERROR";
 
@@ -1728,7 +1765,7 @@ replayButton.addEventListener(
       workflowBusy = false;
       runButton.disabled = false;
       replayButton.disabled =
-        false;
+        !canReplayInvestigation();
 
       replayButton.textContent =
         "Apply guardrail & replay";
@@ -1737,153 +1774,67 @@ replayButton.addEventListener(
 );
 
 
-function renderReplayResult(
-  payload
-) {
-  const result =
-    payload.result || {};
+function replayDisplayState(payload) {
+  const verification = payload.verification || {};
+  const before = payload.result?.before_fix || {};
+  const after = payload.result?.after_fix || {};
+  const beforeCompleted = before.agent_result?.completed === true;
+  const afterCompleted = after.agent_result?.completed === true;
+  const completed = verification.completed === true && beforeCompleted && afterCompleted;
+  const reproduced = verification.reproduced === true;
+  const afterFailed = verification.after_failed === true || !!after.violations?.length;
+  const verified = verification.mitigation_verified === true && completed
+    && reproduced && verification.before_failed === true && !afterFailed;
+  return {
+    before: !beforeCompleted ? "INCOMPLETE" : reproduced ? "FAIL" : "NOT REPRODUCED",
+    after: !afterCompleted ? "INCOMPLETE" : afterFailed ? "FAIL" : "PASS",
+    replay: !completed ? "INCOMPLETE" : reproduced ? "REPRODUCED" : "NOT REPRODUCED",
+    candidate: !completed ? "incomplete" : !reproduced ? "not_reproduced"
+      : verified ? "verified" : "not_verified",
+    verified, completed, reproduced, afterFailed,
+  };
+}
 
-  const verification =
-    payload.verification || {};
-
-  const before =
-    result.before_fix || {};
-
-  const after =
-    result.after_fix || {};
-
-  const beforeFailed =
-    Boolean(
-      verification.before_failed
-    );
-
-  const afterFailed =
-    Boolean(
-      verification.after_failed
-    );
-
-  const reproduced =
-    Boolean(
-      verification.reproduced
-    );
-
-  const mitigationVerified =
-    Boolean(
-      verification.mitigation_verified
-    );
-
-  beforeReplayStatus.textContent =
-    beforeFailed
-      ? "FAIL"
-      : "PASS";
-
-  beforeReplayStatus.className =
-    beforeFailed
-      ? "replay-status"
-      : "replay-status neutral";
-
-  if (beforeFailed) {
-    const violationNames =
-      (
-        before.violations ||
-        []
-      )
-        .map(
-          (item) =>
-            item.violation
-        )
-        .join(", ");
-
-    beforeReplayMeta.textContent =
-      violationNames
-        ? `Reproduced: ${violationNames}`
-        : "Failure reproduced before guardrail.";
-  } else {
-    beforeReplayMeta.textContent =
-      "The failure did not reproduce during this replay.";
-  }
-
-  afterReplayStatus.textContent =
-    afterFailed
-      ? "FAIL"
-      : "PASS";
-
-  afterReplayStatus.className =
-    afterFailed
-      ? "replay-status neutral"
-      : "replay-status";
-
-  if (afterFailed) {
-    const remainingViolations =
-      (
-        after.violations ||
-        []
-      )
-        .map(
-          (item) =>
-            item.violation
-        )
-        .join(", ");
-
-    afterReplayMeta.textContent =
-      remainingViolations
-        ? `Violation remains: ${remainingViolations}`
-        : "The guardrail did not eliminate the failure.";
-  } else {
-    afterReplayMeta.textContent =
-      "No policy violation observed after guardrail.";
-  }
-
+function renderReplayResult(payload) {
+  const verification = payload.verification || {};
+  const before = payload.result?.before_fix || {};
+  const after = payload.result?.after_fix || {};
+  const state = replayDisplayState(payload);
+  beforeReplayStatus.textContent = state.before;
+  beforeReplayStatus.className = "replay-status" + (state.before === "FAIL" ? "" : " neutral");
+  beforeReplayStatus.style.color = state.before === "FAIL" ? "var(--red)" : "var(--amber)";
+  beforeReplayMeta.textContent = state.before === "INCOMPLETE"
+    ? "Baseline replay is incomplete. Mitigation cannot be verified."
+    : !state.reproduced
+      ? "The expected baseline failure did not reproduce. Mitigation cannot be verified from this replay."
+      : `Reproduced: ${(before.violations || []).map(v => readableLabel(v.violation)).join(", ")}`;
+  afterReplayStatus.textContent = state.after;
+  afterReplayStatus.className = "replay-status neutral";
+  afterReplayStatus.style.color = state.after === "INCOMPLETE" ? "var(--amber)"
+    : state.afterFailed ? "var(--red)" : "var(--green)";
+  afterReplayMeta.textContent = state.after === "INCOMPLETE"
+    ? "Protected replay is incomplete. Mitigation cannot be verified."
+    : state.afterFailed
+      ? `Violation remains: ${(after.violations || []).map(v => readableLabel(v.violation)).join(", ")}`
+      : "No policy violation observed after guardrail.";
   if (activeDomain === "emergency_response") {
-    beforeReplayMeta.textContent = reproduced ? `Observed: ${(before.violations || []).map(v => readableLabel(v.violation)).join(", ")}` : "Expected failure did not reproduce in this exact replay.";
-    const denied = (after.events || []).find(e => e.event_type === "dispatch_denied");
-    afterReplayMeta.textContent = afterFailed ? `Remaining: ${(after.violations || []).map(v => readableLabel(v.violation)).join(", ")}` : `${denied ? "Denied by jurisdiction / scoped approval enforcement" : categoryConfig[activeCategory].guardrail} · Utility ${verification.utility_success ? "completed" : "not completed"}`;
+    if (state.after === "PASS") {
+      const denied = (after.events || []).some(e => e.event_type === "dispatch_denied");
+      afterReplayMeta.textContent = `${denied ? "Denied by jurisdiction / scoped approval enforcement" : categoryConfig[activeCategory].guardrail} · Utility ${verification.utility_success ? "completed" : "not completed"}`;
+    }
     for (const [name, side] of [["before", before], ["after", after]]) {
       document.getElementById(`${name}ReplayDetails`).hidden = false;
       document.getElementById(`${name}ReplayEvidence`).textContent = JSON.stringify({completed: side.agent_result?.completed, response: side.agent_result?.final_response, events: side.events, violations: side.violations, utility_success: side.utility_success}, null, 2);
-      if (!side.agent_result?.completed) document.getElementById(`${name}ReplayStatus`).textContent = "INCOMPLETE";
     }
   }
-
-  confidenceReplay.textContent =
-    reproduced
-      ? "REPRODUCED"
-      : "NOT REPRODUCED";
-
-  confidenceReplay.className =
-    reproduced
-      ? "confidence-value green"
-      : "confidence-value muted";
-
-  confidenceUtility.textContent = "Not evaluated";
-  confidenceUtility.className = "confidence-value muted";
-
-  confidenceMitigation.textContent =
-    mitigationVerified
-      ? "VERIFIED"
-      : "NOT VERIFIED";
-
-  confidenceMitigation.className =
-    mitigationVerified
-      ? "confidence-value green"
-      : "confidence-value muted";
-
+  confidenceReplay.textContent = state.replay;
+  confidenceReplay.className = "confidence-value " + (state.completed && state.reproduced ? "danger-text" : "warning-text");
+  confidenceMitigation.textContent = state.verified ? "VERIFIED" : "NOT VERIFIED";
+  confidenceMitigation.className = "confidence-value " + (state.verified ? "green" : "muted");
   confidenceUtility.textContent = verification.utility_success === true ? "PASS" : verification.utility_success === false ? "FAIL" : "Not evaluated";
   confidenceUtility.className = "confidence-value " + (verification.utility_success === true ? "green" : verification.utility_success === false ? "danger-text" : "muted");
-
-  saveRegressionButton.disabled = !mitigationVerified;
-  afterReplayStatus.style.color = !after.agent_result?.completed ? "var(--amber, #edba65)" : (afterFailed ? "var(--red)" : "var(--green)");
-
-  if (
-    mitigationVerified
-  ) {
-    regressionTest.textContent =
-      regressionTest.textContent.replace(
-        /status:\s*\n\s*pending_replay/,
-        `status:
-  verified`
-      );
-  }
+  saveRegressionButton.disabled = !state.verified || !!lastSavedRegressionId;
+  if (!lastSavedRegressionId) setCandidateStatus(state.candidate);
 }
 
 
@@ -1988,8 +1939,7 @@ saveRegressionButton.addEventListener(
         .verification || {};
 
     if (
-      !verification
-        .mitigation_verified
+      !replayDisplayState(lastReplayResult).verified
     ) {
       alert(
         "This case cannot be saved because the mitigation has not been verified."
@@ -2064,7 +2014,11 @@ saveRegressionButton.addEventListener(
         ].guardrail
       );
 
+    if (workflowBusy) return;
     try {
+      workflowBusy = true;
+      runButton.disabled = true;
+      replayButton.disabled = true;
       saveRegressionButton.disabled =
         true;
 
@@ -2167,6 +2121,10 @@ regression_id:
       alert(
         `Could not save regression: ${error.message}`
       );
+    } finally {
+      workflowBusy = false;
+      runButton.disabled = false;
+      replayButton.disabled = !canReplayInvestigation();
     }
   }
 );
@@ -2192,6 +2150,8 @@ viewBlackBoxButton.addEventListener(
 ========================================================= */
 
 function resetWorkspace() {
+  document.getElementById("exportReportButton").disabled = true;
+  document.getElementById("exportReportButton").title = "Run an investigation to collect exportable evidence.";
   for (const side of ["before", "after"]) {
     document.getElementById(`${side}ReplayDetails`).hidden = true;
     document.getElementById(`${side}ReplayEvidence`).textContent = "";
@@ -2605,7 +2565,7 @@ function renderRegressionSuite(
             </div>
           </div>
 
-          <div class="regression-card-status">
+          <div class="regression-card-status ${regression.mitigation_verified ? "verified" : "unverified"}">
             ${
               regression.mitigation_verified
                 ? "VERIFIED"
@@ -2626,7 +2586,6 @@ function renderRegressionSuite(
           </div>
         </div>
 
-        <div class="regression-card-last-run">Last run: unavailable</div>
         <div class="regression-card-grid">
 
           <div>
@@ -2866,6 +2825,14 @@ async function rerunSavedRegression(
     const verification =
       payload.verification || {};
 
+    const state = replayDisplayState(payload);
+    if (!state.completed) {
+      button.textContent = "INCOMPLETE";
+      resultElement.textContent = "INCOMPLETE · mitigation cannot be verified from an incomplete replay.";
+      resultElement.style.color = "var(--amber)";
+      return;
+    }
+
     const beforeFailed =
       Boolean(
         verification.before_failed
@@ -2908,8 +2875,11 @@ async function rerunSavedRegression(
       "FAIL";
 
     if (!reproduced) {
+      button.textContent = "NOT REPRODUCED";
       resultElement.textContent =
-        "FAIL · the saved failure did not reproduce in this rerun.";
+        "NOT REPRODUCED · mitigation cannot be verified from this rerun.";
+      resultElement.style.color = "var(--amber)";
+      return;
     } else if (
       afterFailed
     ) {
@@ -2975,53 +2945,43 @@ regressionSuiteNavButton.addEventListener(
 ========================================================= */
 
 async function checkBackend() {
+  const dot = document.querySelector(".runtime-dot");
+  const label = document.getElementById("runtimeStatus");
   try {
-    const response =
-      await fetch(
-        `${API_BASE}/health`
-      );
-
-    if (!response.ok) {
-      throw new Error();
-    }
-
-    const data =
-      await response.json();
-
-    if (
-      data.status !==
-      "healthy"
-    ) {
-      throw new Error();
-    }
+    const response = await fetch(`${API_BASE}/ready`);
+    const data = await response.json();
+    if (!response.ok || data.status !== "ready") throw new Error("Not ready");
+    label.textContent = "Ready";
+    label.title = "Storage available and model configured. Provider connectivity is not checked.";
+    dot.style.background = "var(--muted)";
   } catch {
-    const runtimeDot =
-      document.querySelector(
-        ".runtime-dot"
-      );
-
-    if (!runtimeDot) {
-      return;
-    }
-
-    const runtimeItem =
-      runtimeDot.parentElement;
-
-    runtimeDot.style.background =
-      "var(--red)";
-
-    runtimeDot.style.boxShadow =
-      "0 0 10px rgba(255,93,98,0.5)";
-
-    if (
-      runtimeItem
-    ) {
-      runtimeItem.childNodes[
-        runtimeItem.childNodes.length - 1
-      ].textContent =
-        " OFFLINE";
-    }
+    label.textContent = "Not ready";
+    label.title = "Application readiness could not be confirmed.";
+    dot.style.background = "var(--amber)";
   }
+}
+
+async function loadCategoryMetadata() {
+  await Promise.all(["customer_support", "emergency_response"].map(async domain => {
+    try {
+      const response = await fetch(`${API_BASE}/api/categories?domain=${domain}`);
+      if (!response.ok) throw new Error("Category metadata unavailable");
+      const payload = await response.json();
+      for (const category of payload.categories) {
+        const card = document.querySelector(`[data-category="${category.id}"]`);
+        if (!card) continue;
+        card.querySelector(".category-severity").textContent = `Severity: ${category.severity}`;
+        card.querySelector(".category-replay").textContent = category.replay_supported ? "Replay supported" : "Replay unavailable";
+        if (category.replay_supported) replaySupportedCategories.add(category.id);
+        else replaySupportedCategories.delete(category.id);
+      }
+    } catch {
+      document.querySelectorAll(`[data-investigation-domain="${domain}"] .category-severity`).forEach(label => {
+        label.textContent = "Severity unavailable";
+      });
+    }
+    replayButton.disabled = workflowBusy || !canReplayInvestigation();
+  }));
 }
 
 
@@ -3030,6 +2990,7 @@ async function checkBackend() {
 ========================================================= */
 
 checkBackend();
+loadCategoryMetadata();
 loadRegressionSuite();
 // Export actual collected evidence; no fabricated preview data.
 document.getElementById("exportReportButton").addEventListener("click", () => {
