@@ -2614,7 +2614,7 @@ function renderRegressionSuite(
             </div>
 
             <div
-              class="regression-card-value safe-text"
+              class="regression-card-value ${afterViolations ? "danger-text" : regression.mitigation_verified ? "safe-text" : "warning-text"}"
             >
               ${
                 afterViolations

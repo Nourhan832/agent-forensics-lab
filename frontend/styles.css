@@ -3817,6 +3817,7 @@ a { color:var(--accent-text); }
 .regression-card-grid,.regression-rerun-area { border-top-color:var(--border) !important; }
 .regression-card-grid .danger-text { color:var(--danger); }
 .regression-card-grid .safe-text { color:var(--success); }
+.regression-card-grid .warning-text { color:var(--warning); }
 .regression-rerun-button.save-regression-button { border:1px solid var(--border) !important; border-radius:var(--r-sm); background:rgba(255,255,255,.02); color:var(--text-soft); }
 .regression-rerun-button.save-regression-button:hover:not(:disabled) { color:var(--text); background:rgba(255,255,255,.05); border-color:var(--border-strong) !important; }
 .regression-suite-empty { border-color:var(--border-strong); color:var(--muted); }
