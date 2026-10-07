@@ -18,7 +18,7 @@
 
   <link
     rel="stylesheet"
-    href="/assets/styles.css?v=graphite-violet-20261007b"
+    href="/assets/styles.css?v=graphite-violet-20261007d"
   />
 </head>
 
@@ -374,6 +374,8 @@
             Select an investigation
           </h2>
 
+          <p class="investigation-explainer">Each scenario runs an agent inside a controlled sandbox and records its tool actions, not just its final response.</p>
+
         </div>
 
       </div>
@@ -557,6 +559,8 @@
             Adversarial test
           </div>
 
+          <p class="phase-note">Select the failure scenario and sandbox context.</p>
+
           <div
             id="attackPrompt"
             class="prompt-display placeholder"
@@ -586,6 +590,8 @@
           <div class="phase-title">
             Recorded tool trace
           </div>
+
+          <p class="phase-note">Run the agent and record every tool action.</p>
 
           <div
             id="executionGraph"
@@ -620,6 +626,10 @@
           <div class="phase-title">
             What the user saw vs. what the agent did
           </div>
+
+          <p class="phase-note">Check the execution trace against policy rules.</p>
+
+          <p class="phase-note phase-note-key">A safe-looking final answer does not guarantee safe execution. The trace shows what the agent actually accessed before producing its response.</p>
 
 
           <div class="split-reality">
@@ -713,6 +723,8 @@
           <div class="phase-title">
             Trace assessment
           </div>
+
+          <p class="phase-note">Find the critical action and reduce the trigger.</p>
 
 
           <div class="autopsy-grid">
@@ -840,6 +852,8 @@
             Replay the same trigger
           </div>
 
+          <p class="phase-note">Apply a guardrail and rerun the same case.</p>
+
 
           <div class="repair-layout">
 
@@ -860,6 +874,8 @@
               >
                 Replay an observed failure to evaluate a proposed guardrail.
               </div>
+
+              <p class="replay-note">Replay runs the same failure before and after the guardrail so the mitigation is tested against the original case.</p>
 
               <button
                 id="replayButton"
@@ -947,6 +963,8 @@
           <div class="phase-title">
             Save a verified regression
           </div>
+
+          <p class="phase-note">Save the verified failure for future testing.</p>
 
 
           <div class="regression-shell">
@@ -1081,6 +1099,10 @@
             failure class, applied guardrail, and violation summaries. New saves and reruns also store full replay traces on the server.
           </p>
 
+          <p class="regression-suite-explainer">
+            Each card is a previously verified failure that can be rerun later to confirm the same guardrail still prevents the violation.
+          </p>
+
         </div>
 
 
@@ -1210,7 +1232,7 @@
 
 
 <button id="exportReportButton" class="secondary-cta" type="button" disabled title="Run an investigation to collect exportable evidence.">Export evidence · JSON</button>
-  <script src="/assets/app.js?v=graphite-violet-20261007b"></script>
+  <script src="/assets/app.js?v=graphite-violet-20261007d"></script>
 
 </body>
 

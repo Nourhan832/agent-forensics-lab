@@ -3319,9 +3319,9 @@ button:disabled { opacity: 1; color: #a5afbf; background: #161c24; border-color:
 .workspace.is-idle .phase-block:not(.discover-phase) { padding-top:16px; padding-bottom:16px; }
 .workspace.is-idle .phase-block:not(.discover-phase) .phase-heading,
 .workspace.is-idle .phase-block:not(.discover-phase) .phase-title { color:var(--muted); }
-.workspace.is-idle .trace-phase .phase-content > :not(.phase-heading):not(.phase-title),
-.workspace.is-idle .verdict-phase .phase-content > :not(.phase-heading):not(.phase-title),
-.workspace.is-idle .localize-phase .phase-content > :not(.phase-heading):not(.phase-title),
+.workspace.is-idle .trace-phase .phase-content > :not(.phase-heading):not(.phase-title):not(.phase-note),
+.workspace.is-idle .verdict-phase .phase-content > :not(.phase-heading):not(.phase-title):not(.phase-note),
+.workspace.is-idle .localize-phase .phase-content > :not(.phase-heading):not(.phase-title):not(.phase-note),
 .workspace.is-idle .replay-comparison,
 .workspace.is-idle .repair-label,
 .workspace.is-idle .repair-title,
@@ -3867,3 +3867,13 @@ a { color:var(--accent-text); }
   .runtime-strip .inference-model-full { display:none; }
   .runtime-strip .inference-model-short { display:block; }
 }
+
+/* Regression suite explanatory copy (secondary text only) ------------------ */
+.regression-suite-explainer { margin:0 0 10px; max-width:640px; font:13px/1.6 var(--sans); color:var(--muted); }
+.regression-rerun-note { margin:4px 0 10px; max-width:560px; font:12px/1.55 var(--sans); color:var(--muted); }
+
+/* Investigation workflow explanatory copy (secondary text only) ----------- */
+.investigation-explainer { margin:6px 0 0; max-width:640px; font:13px/1.6 var(--sans); color:var(--muted); }
+.phase-note { margin:-8px 0 12px; max-width:640px; font:12.5px/1.5 var(--sans); color:var(--muted); }
+.phase-note-key { margin-top:-4px; padding-left:10px; border-left:2px solid var(--accent-line); color:var(--text); opacity:.82; font-size:13px; }
+.replay-note { margin:10px 0 14px; max-width:420px; font:12.5px/1.5 var(--sans); color:var(--muted); }

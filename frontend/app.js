@@ -2649,6 +2649,7 @@ function renderRegressionSuite(
           "
         >
           <div class="regression-card-label">Latest rerun attempt</div>
+          <p class="regression-rerun-note">Saved verification shows the result when the regression was created. Latest rerun shows the result of testing it again in this session.</p>
           <button
             class="save-regression-button regression-rerun-button"
             ${
