@@ -81,7 +81,7 @@ Agent Forensics Lab does not inherit provider certifications and makes no SOC 2,
 - **Primary model:** `nvidia/nemotron-3-super-120b-a12b`
 - **Runtime provider:** Nebius Token Factory
 - **Live demo:** [agent-forensics-lab.fly.dev](https://agent-forensics-lab.fly.dev/)
-- **Final video:** Pending public YouTube URL.
+- **Final video:** [youtu.be/Bf7sjpAdqxA](https://youtu.be/Bf7sjpAdqxA) (2:48, English captions)
 
 ### Technology feedback
 
@@ -160,7 +160,21 @@ Node.js is required for executable frontend state tests and JavaScript syntax ch
 - [tests](tests): automated correctness, security, persistence and evaluation checks.
 - [docs](docs): adapter contracts, methodology, deployment and review notes. Earlier review documents reflect their dated scope; the current evidence links above take precedence.
 
-No current polished screenshots are published yet. Recommended captures from genuine completed live runs: the main investigation screen; the critical tool trace with protected replay verdict; and the emergency provenance or evaluation panel. The existing [historical rerun screenshot](docs/ui-rerun-proof.png) predates the current UI and is retained as review evidence.
+### Screenshots
+
+**Safe answer, unsafe action:** the final response looks privacy-aware, while the recorded trace shows a cross-customer order lookup.
+
+![Safe answer, unsafe action](docs/screenshots/01-safe-answer-unsafe-action.png)
+
+**Replay with guardrail:** the same case replayed with and without Content Isolation; the failure reproduces before and the mitigation is verified on the same replayed case.
+
+![Replay guardrail verified](docs/screenshots/02-replay-guardrail-verified.png)
+
+**Evidence:** the frozen audited benchmark with its denominators and qualifiers.
+
+![Evidence benchmark](docs/screenshots/03-evidence-benchmark.png)
+
+The [historical rerun screenshot](docs/ui-rerun-proof.png) predates the current UI and is retained as review evidence.
 
 ## License
 
